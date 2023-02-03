@@ -133,7 +133,7 @@ class TrafficSlicing(app_manager.RyuApp):
                 self.add_flow(datapath, 1, match, actions)
                 self._send_package(msg, datapath, in_port, actions)
 
-            elif pkt.get_protocol(tcp.tcp): # se il protocllo è TCP lo trattiamo uguale al caso precedente
+            elif pkt.get_protocol(tcp.tcp): # se il protocollo è TCP lo trattiamo uguale al caso precedente
                 slice_number = 2
                 out_port = self.slice_ports[dpid][slice_number]
                 match = datapath.ofproto_parser.OFPMatch(
@@ -147,7 +147,7 @@ class TrafficSlicing(app_manager.RyuApp):
                 self.add_flow(datapath, 1, match, actions)
                 self._send_package(msg, datapath, in_port, actions)
 
-            elif pkt.get_protocol(icmp.icmp): # se il protocllo è ICMP lo trattiamo uguale al caso precedente
+            elif pkt.get_protocol(icmp.icmp): # se il protocollo è ICMP lo trattiamo uguale al caso precedente
                 slice_number = 2
                 out_port = self.slice_ports[dpid][slice_number]
                 match = datapath.ofproto_parser.OFPMatch(
@@ -167,3 +167,26 @@ class TrafficSlicing(app_manager.RyuApp):
             match = datapath.ofproto_parser.OFPMatch(in_port=in_port)
             self.add_flow(datapath, 1, match, actions)
             self._send_package(msg, datapath, in_port, actions)
+
+
+# NOTA
+#       Una volta costruita la topology ed eseguito questo programma, possiamo testare il network tramite i due seguenti comandi.
+#       Utilizzando la porta 9999 e UDP ci aspettiamo di utilizzare lo slice1 da 10bw
+#
+#           $ h3 iperf -s -u -p 9999 -b 20M &
+#               -s          ---> da lato server
+#               -u          ---> utilizzando UDP
+#               -p 9999     ---> indirizza alla porta 9999
+#               -b 20M      ---> genera traffico fino a 20Mbit (in realtà sarà poi limitato a 10 dal link)
+#               &           ---> esegue in backgorund
+#
+#           $ h1 iperf -c 10.0.0.3 -u -p 9999 -b 20M -t 10 -i 1
+#               -c          ---> da lato client
+#               10.0.0.3    ---> ip del server
+#               -u          ---> UDP
+#               -p 9999     ---> porta
+#               -b 20M      ---> riceve un flusso di 20Mb (in realtà sarà 10 perché limitato dal link)
+#               -t 10       ---> 10 secondi di misurazione 
+#               -i 1        ---> misurazioni a intervallo di un secondo
+#
+#       Se gli stessi comandi venissero eseugiti utilizzando una porta diversa da 9999, allora il flusso verrà allocato nello slice2 da 1bw
