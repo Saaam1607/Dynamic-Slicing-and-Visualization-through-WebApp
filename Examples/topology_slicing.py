@@ -23,6 +23,7 @@ class TrafficSlicing(app_manager.RyuApp):
         # out_port = slice_to_port[dpid][in_port]
         # dato uno switch, viene definito come collegare la porta d'ingresso con la porta d'uscita. Si tratta di una sorta di regola che utilizziamo
         # per definire ognli slice. In pratica possiamo isolare di flussi all'interno di uno swtich
+        # Per capire come sono assegnate le porte, vedere in network.py e seguire l'ordina di creazizione dei links
         self.slice_to_port = {
             1: {1: 3, 3: 1, 2: 4, 4: 2}, # es: switch1 ---> tutto quello che entra nella porta 1, esce dalla porta 3
                                          #                  tutto quello che entra nella porta 3, esce dalla porta 1
@@ -34,6 +35,10 @@ class TrafficSlicing(app_manager.RyuApp):
         }
 
     # definiamo il cuore del sistema
+    # funzione per l'HANDSHAKE
+    # all'inizio della session il controller invia un messaggio FEATURE REQUEST allo switch (viene gestito da Ryu)
+    # lo switch risponde con un messaggio FEATURE REPLY
+    # il messaggio 
     @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
     def switch_features_handler(self, ev):
         datapath = ev.msg.datapath 
@@ -78,15 +83,15 @@ class TrafficSlicing(app_manager.RyuApp):
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
     def _packet_in_handler(self, ev):
         msg = ev.msg
-        datapath = msg.datapath
-        in_port = msg.match["in_port"]
-        dpid = datapath.id
+        datapath = msg.dataevpath             # viene letto il datapath di ciò che è arrivato
+        in_port = msg.match["in_port"]        # viene letta la porta in ingresso del pacchetto ricevuto
+        dpid = datapath.id                    # viene letto il datapathID del pacchetto ricevuto (== numero dello switch in cui è stato ricevuto il pacchetto)
 
-        # (quando arriva un pacchetto) viene letta la tabella slice_to_port e sulla base di qual'è lo switch da cui è stato ricevuto il pacchetto
-        # e la sua porta in ingress, verrà scelta quale sarà la porta di uscita
-        out_port = self.slice_to_port[dpid][in_port]
-        actions = [datapath.ofproto_parser.OFPActionOutput(out_port)]
-        match = datapath.ofproto_parser.OFPMatch(in_port=in_port)
+        # viene letta la tabella slice_to_port e sulla base di qual'è lo switch ricevente e la porta in cui ha ricevuto verrà scelta la porta di uscita
+        # (vedi la tabella slice_to_port per capire quale sarà)
+        out_port = self.slice_to_port[dpid][in_port]                        # viene scelta la porta di uscita come spiegato
+        actions = [datapath.ofproto_parser.OFPActionOutput(out_port)]       # parametro2 che verrà inserito nella FlowTable successivamente
+        match = datapath.ofproto_parser.OFPMatch(in_port=in_port)           # parametro1 che verrà inserito nella FlowTable successivamente
 
-        self.add_flow(datapath, 1, match, actions) # l'azione compiuta viene aggiunta nella tabella delle azioni dello switch
-        self._send_package(msg, datapath, in_port, actions)
+        self.add_flow(datapath, 1, match, actions)              # l'azione compiuta viene aggiunta nella tabella delle azioni dello switch (nuova flowEntry)
+        self._send_package(msg, datapath, in_port, actions)     # inoltra/invia il pacchetto secondo i parametri stabiliti

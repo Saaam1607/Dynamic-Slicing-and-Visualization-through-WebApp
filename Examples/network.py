@@ -24,7 +24,7 @@ class NetworkSlicingTopo(Topo):
         host_link_config = dict()
 
         # Create switch nodes
-        # crea 4 switch
+        # crea 4 switch.
         for i in range(4):
             sconfig = {"dpid": "%016x" % (i + 1)}
             self.addSwitch("s%d" % (i + 1), **sconfig)
@@ -35,7 +35,8 @@ class NetworkSlicingTopo(Topo):
             self.addHost("h%d" % (i + 1), **host_config)
 
         # Add switch links
-        # costruisce i collegamenti tra gli switch utilizzando i template definidi in precedenza
+        # Costruisce i collegamenti tra gli switch utilizzando i template definidi in precedenza.
+        # Le porte di ogni switch vengono nomicate seguondo l'ordine in cui vengono creati i collegamenti 
         self.addLink("s1", "s2", **video_link_config)   # bw = 10
         self.addLink("s2", "s4", **video_link_config)   # bw = 10
         self.addLink("s1", "s3", **http_link_config)    # bw = 1
