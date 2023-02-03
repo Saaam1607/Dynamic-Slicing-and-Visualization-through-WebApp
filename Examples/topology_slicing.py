@@ -25,16 +25,17 @@ class TrafficSlicing(app_manager.RyuApp):
         # per definire ognli slice. In pratica possiamo isolare di flussi all'interno di uno swtich
         # Per capire come sono assegnate le porte, vedere in network.py e seguire l'ordina di creazizione dei links
         self.slice_to_port = {
-            1: {1: 3, 3: 1, 2: 4, 4: 2}, # es: switch1 ---> tutto quello che entra nella porta 1, esce dalla porta 3
-                                         #                  tutto quello che entra nella porta 3, esce dalla porta 1
-                                         #                  tutto quello che entra nella porta 2, esce dalla porta 4
-                                         #                  tutto quello che entra nella porta 4, esce dalla porta 2
+            1: {1: 3, 3: 1, 2: 4, 4: 2},                
             4: {1: 3, 3: 1, 2: 4, 4: 2},
             2: {1: 2, 2: 1},
             3: {1: 2, 2: 1},
         }
+        # Esempio (prima entry, ovvero switch1):
+        #       tutto quello che entra nella porta 1, esce dalla porta 3
+        #       tutto quello che entra nella porta 3, esce dalla porta 1
+        #       tutto quello che entra nella porta 2, esce dalla porta 4
+        #       tutto quello che entra nella porta 4, esce dalla porta 2
 
-    # definiamo il cuore del sistema
     # funzione per l'HANDSHAKE
     # all'inizio della session il controller invia un messaggio FEATURE REQUEST allo switch (viene gestito da Ryu)
     # lo switch risponde con un messaggio FEATURE REPLY
