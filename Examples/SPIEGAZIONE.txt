@@ -3,5 +3,9 @@ topology.py             --->    CREA LA TOPLOGIA DELLA RETE (crea host, switch e
 topology_slicing.py     --->    CREA UN ESEMPIO DI SLICES (alcuni host raggiungono solo alcuni host).
                                 Da eseguire dopo topology.py
                                 
-topology_slicing.py     --->    CREA UN ALTRO ESEMPIO DI SLICES (tutti gli host comunicano con tutti gli host; il traffico video viene rediretto su uno slice con bw=10, il resto su uno slice con bw=1).ggiungono solo alcuni host).
+topology_slicing.py     --->    CREA UN ALTRO ESEMPIO DI SLICES (tutti gli host comunicano con tutti gli host; il traffico video viene rediretto su uno                                     slice con bw=10, il resto su uno slice con bw=1).ggiungono solo alcuni host).
                                 Da eseguire dopo topology.py in alternativa a quello precedente
+                                
+                                
+VIDEO: https://www.youtube.com/watch?v=swJ8zEvwXcI
+                           
