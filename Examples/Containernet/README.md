@@ -13,7 +13,7 @@ docker build -f Dockerfile.[client/server] -t test_[client/server]:latest
 Programma **_demo.py_**:
 - Crea una rete con Containernet(). Aggiunge due host basati su due Docker containers.
 - Il container server, appena viene istanziato, esegue il programma app.py
-- Setuppa la rete (aggiunge due switch):	[Server] --- [s1] --- [s2] --- [Client]
+- Setuppa la rete (aggiunge due switch): &nbsp;	[Server] --- [s1] --- [s2] --- [Client]
 - utilizza il client per fare un curl sul server
 
 Programma **_app.py_**:
