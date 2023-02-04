@@ -1,4 +1,4 @@
-FROM nginx:latest
-COPY html /usr/share/nginx/html
-EXPOSE 80/tcp
-CMD ["nginx"]
+FROM nginx:latest                   # to include in the image all the functionalities fromt the nginx:latest image
+COPY html /usr/share/nginx/html     # to copy the specified code into the image
+EXPOSE 80/tcp                       # to expose the container to the outside world with the port 80/tcp
+CMD ["nginx"]                       # command to execute when the images is started as a container (it runs nginx)

@@ -2,6 +2,8 @@ from flask import Flask                     # è un microframework per Python ch
 
 app = Flask(__name__)
 
+# @app.route("<url>") è un decorator: quando viene passato l'url (parametro), viene eseguita la funzione indicata
+
 # non necessario, è solo per il setup di flask
 @app.route("/")
 def default():
@@ -9,7 +11,7 @@ def default():
 
 
 @app.route("/hello/<id>")
-def hello(id=0):
+def hello(id=0): # ritorna il valore passato come <id>
     try:
         id = int(id)
         id += 1

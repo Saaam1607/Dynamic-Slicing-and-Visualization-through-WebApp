@@ -1,8 +1,8 @@
-FROM ubuntu:focal
-RUN apt-get update
+FROM ubuntu:focal           # to include in the image all the functionalities from the ubuntu:focal image
+RUN apt-get update          # to execute commands on the top of the current image
 RUN apt-get install -y \
     net-tools \
     iputils-ping \
     iproute2 \
     curl 
-CMD ["/bin/bash"]
+CMD ["/bin/bash"]           # command to execute when the images is started as a container
