@@ -20,3 +20,21 @@
 - [...]
 
 ![alt text](topology.png "Topology Idea")
+
+Forse se un fiantin masa intricà
+
+### Osserviazioni
+- Gli slice sono creati e mai distrutti, l'unica cosa dinamica sono i server
+- Che slices potrebbero essere creati?
+
+Quali servizi supportare?
+1. Low bw, high latency ---> IoT 
+2. high bw, high latency ---> enhanced broadband services
+3. low bw, low latency ---> Ultrareliable communications
+
+- Slice potentissimo (high bw, low latency): primo slice disponibile. Se nessuno lo usa potrebbe essere utilizzato da qualsiasi servizio, altrimenti sicruamente il servizio "Ultrareliable communications" ha precedenza, gli altri due a seguire
+- Slice veloce ma con ritardo (high bw, low latency): utiliizzabile da entrambi i servizi "IoT" e "enchanced..."
+- Slice lento e ritardo (high bw, high latency): utilizzabile solo da "IoT"
+
+Soluzione carina ma sarebbe solo un "scalo il servizio su un altro slice quando quello più importante viene richiesto"
+
