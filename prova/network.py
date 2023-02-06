@@ -6,6 +6,7 @@ from mininet.link import TCLink
 from mininet.log import info, setLogLevel
 from mininet.node import Controller
 
+from subprocess import check_output
 
 # OBBIETTIVO DEL PROGRAMMA: creazione dell'infrastruttura di rete sssssssssssssssssssssssssssssssssicuramente
 
@@ -21,7 +22,7 @@ def topology():
         'h1',
         dimage="dev_test",
         ip='10.0.0.11/24',
-        docker_args={"hostname": "h1"} # :O
+        docker_args={"hostname": "h1"} # :O :(
     )
     h2 = net.addDockerHost(
         "h2",
@@ -63,13 +64,13 @@ def topology():
     s2 = net.get("s2")
     
     info("*** Creating links\n")
-    net.addLink(h1, s1)
-    net.addLink(h2, s1)
-    net.addLink(h3, s1)
-    net.addLink(h4, s2)
-    net.addLink(h5, s2)
-    net.addLink(h6, s2)
-    net.addLink(s1, s2)
+    net.addLink(h1, s1, bw=10)
+    net.addLink(s1, h2, bw=10)
+    net.addLink(h3, s1, bw=10)
+    net.addLink(h4, s2, bw=10)
+    net.addLink(h5, s2, bw=10)
+    net.addLink(h6, s2, bw=10)
+    net.addLink(s1, s2, bw=10)
 
     info("*** Starting network\n")
     net.start()
@@ -80,8 +81,16 @@ def topology():
     info("*** Stopping network\n")
     net.stop()
 
+
 topos = {"topology": (lambda: topology())}
 
 if __name__ == "__main__": # effetto: il codice verrà eseguito solo quando il programma verrà eseguito come uno script (ex. da terminale)
     print("culone")  # stampa di controllo
+
+    check_output("sudo mn -c", shell=True) # pulizia del mininet
+    try:
+        check_output("docker kill h1 h2 h3 h4 h5 h6", shell=True)
+    except Exception:
+        print("Error closing containers")
+
     topology()
