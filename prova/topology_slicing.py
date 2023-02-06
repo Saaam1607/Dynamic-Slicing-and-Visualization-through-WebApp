@@ -3,6 +3,13 @@ from ryu.controller import ofp_event
 from ryu.controller.handler import CONFIG_DISPATCHER, MAIN_DISPATCHER
 from ryu.controller.handler import set_ev_cls
 from ryu.ofproto import ofproto_v1_3
+# .................................
+from ryu.lib.packet import packet
+from ryu.lib.packet import ethernet
+from ryu.lib.packet import ether_types
+from ryu.lib.packet import udp
+from ryu.lib.packet import tcp
+from ryu.lib.packet import icmp
 
 # OBIETTIVO: definire le regole da implementare nel controller con ryu
 # NOTA: è un file .py ma verrà lanciato come "script northbound" del controller ryu (infatti vengono importate le librerie di ryu)
@@ -20,15 +27,17 @@ class TrafficSlicing(app_manager.RyuApp):
     def __init__(self, *args, **kwargs):
         super(TrafficSlicing, self).__init__(*args, **kwargs)
 
+        self.mac_to_port = {                                            
+            1: {"00:00:00:00:00:01" : 3, "00:00:00:00:00:02" : 4},   
+            2: {"00:00:00:00:00:03" : 3, "00:00:00:00:00:04" : 4}
+        }
         # out_port = slice_to_port[dpid][in_port]
         # dato uno switch, viene definito come collegare la porta d'ingresso con la porta d'uscita. Si tratta di una sorta di regola che utilizziamo
         # per definire ognli slice. In pratica possiamo isolare di flussi all'interno di uno swtich
         # Per capire come sono assegnate le porte, vedere in network.py e seguire l'ordina di creazizione dei links
         self.slice_to_port = {
-            1: {1: 3, 3: 1, 2: 4, 4: 2},                
-            4: {1: 3, 3: 1, 2: 4, 4: 2},
-            2: {1: 2, 2: 1},
-            3: {1: 2, 2: 1},
+            1: {1:4, 2:4, 3:4, 4:1, 4:2, 4:3, 4:4},         
+            2: {1:4, 2:4, 3:4, 4:1, 4:2, 4:3, 4:4}   
         }
         # Esempio (prima entry, ovvero switch1):
         #       tutto quello che entra nella porta 1, esce dalla porta 3
@@ -88,11 +97,32 @@ class TrafficSlicing(app_manager.RyuApp):
         in_port = msg.match["in_port"]        # viene letta la porta in ingresso del pacchetto ricevuto
         dpid = datapath.id                    # viene letto il datapathID del pacchetto ricevuto (== numero dello switch in cui è stato ricevuto il pacchetto)
 
+
+        # .........................
+
+        pkt = packet.Packet(msg.data)            
+        eth = pkt.get_protocol(ethernet.ethernet)
+        dst = eth.dst
+
+        # ..........................
+
         # viene letta la tabella slice_to_port e sulla base di qual'è lo switch ricevente e la porta in cui ha ricevuto verrà scelta la porta di uscita
         # (vedi la tabella slice_to_port per capire quale sarà)
-        out_port = self.slice_to_port[dpid][in_port]                        # viene scelta la porta di uscita come spiegato
-        actions = [datapath.ofproto_parser.OFPActionOutput(out_port)]       # parametro2 che verrà inserito nella FlowTable successivamente
-        match = datapath.ofproto_parser.OFPMatch(in_port=in_port)           # parametro1 che verrà inserito nella FlowTable successivamente
+        
+        #out_port = self.slice_to_port[dpid][in_port]                        # viene scelta la porta di uscita come spiegato
+        #actions = [datapath.ofproto_parser.OFPActionOutput(out_port)]       # parametro2 che verrà inserito nella FlowTable successivamente
+        #match = datapath.ofproto_parser.OFPMatch(in_port=in_port)           # parametro1 che verrà inserito nella FlowTable successivamente
 
-        self.add_flow(datapath, 1, match, actions)              # l'azione compiuta viene aggiunta nella tabella delle azioni dello switch (nuova flowEntry)
-        self._send_package(msg, datapath, in_port, actions)     # inoltra/invia il pacchetto secondo i parametri stabiliti
+        #self.add_flow(datapath, 1, match, actions)              # l'azione compiuta viene aggiunta nella tabella delle azioni dello switch (nuova flowEntry)
+        #self._send_package(msg, datapath, in_port, actions)     # inoltra/invia il pacchetto secondo i parametri stabiliti
+
+
+        # ...........................
+
+        if dpid in self.mac_to_port:                
+            if dst in self.mac_to_port[dpid]: # se la destinazione è nella tabella "mac_to_port" definita inizialmente
+                out_port = self.mac_to_port[dpid][dst]
+                actions = [datapath.ofproto_parser.OFPActionOutput(out_port)]
+                match = datapath.ofproto_parser.OFPMatch(eth_dst=dst)
+                self.add_flow(datapath, 1, match, actions)
+                self._send_package(msg, datapath, in_port, actions)
