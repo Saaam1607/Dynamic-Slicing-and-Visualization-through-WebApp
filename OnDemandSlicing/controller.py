@@ -118,24 +118,24 @@ class TrafficSlicing(app_manager.RyuApp):
                     self._send_package(msg, datapath, in_port, actions)
 
                     
-    # Function that automates the alternation between Emergency and Non-Emergency Scenario                
-    def timer(self):
-        while True:
-            time.sleep(60)                              # For 40 seconds we have the Normal/Non-Emergency Scenario
-            print()
-            print('                ***Emergency***                ')
-            self.criticalService = 1
-            subprocess.call("./sos_scenario.sh")        # Creating the third slice
-            self.print_flag = 0
-            time.sleep(60)                              # For 40 seconds we have the Emergency Scenario
-            print(' ')
-            print('Update: 60 seconds have passed.')
-            print('Ending the criticalService Scenario...')
-            print('Recreate the initial Network Slicing...')
-            print(' ')    
-            subprocess.call("./common_scenario.sh")     # End of Emergency - Return to 2 slices
-            self.criticalService = 0
-            self.time = time.time()
+    # # Function that automates the alternation between Emergency and Non-Emergency Scenario                
+    # def timer(self):
+    #     while True:
+    #         time.sleep(60)                              # For 40 seconds we have the Normal/Non-Emergency Scenario
+    #         print()
+    #         print('                ***Emergency***                ')
+    #         self.criticalService = 1
+    #         # subprocess.call("./sos_scenario.sh")        # Creating the third slice
+    #         self.print_flag = 0
+    #         time.sleep(60)                              # For 40 seconds we have the Emergency Scenario
+    #         print(' ')
+    #         print('Update: 60 seconds have passed.')
+    #         print('Ending the criticalService Scenario...')
+    #         print('Recreate the initial Network Slicing...')
+    #         print(' ')    
+    #         subprocess.call("./script.sh")     # End of Emergency - Return to 2 slices
+    #         self.criticalService = 0
+    #         self.time = time.time()
 
                     
                 
