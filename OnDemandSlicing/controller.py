@@ -106,9 +106,6 @@ class TrafficSlicing(app_manager.RyuApp):
                     match = datapath.ofproto_parser.OFPMatch(eth_dst=dst)
                     self.add_flow(datapath, 1, match, actions)
                     self._send_package(msg, datapath, in_port, actions)
-
-
-                
             else:                    
                 if dst in self.mac_to_port[dpid]:
                     out_port = self.mac_to_port[dpid][dst]
