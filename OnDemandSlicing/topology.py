@@ -44,7 +44,7 @@ topos = {'on_demand_slicing_topo': (lambda: OnDemandSlicingTopo())}
 if __name__ == '__main__':
     os.system('sudo mn -c')
     topo = OnDemandSlicingTopo()
-    net = Mininet(topo=topo, link=TCLink, controller=RemoteController('c0', ip='127.0.0.1'), switch=OVSKernelSwitch, autoSetMacs=True, autoStaticArp=True)
+    net = Mininet(topo=topo, link=TCLink, controller=RemoteController('c0', ip='127.0.0.1'), switch=OVSKernelSwitch, build=False ,autoSetMacs=True, autoStaticArp=True)
     net.build()
     net.start()
     CLI(net)
