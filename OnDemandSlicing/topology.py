@@ -14,8 +14,8 @@ class OnDemandSlicingTopo(Topo):
     def __init__(self):
         Topo.__init__(self)
 
-        link_config = {'bw': 10}
-        switch_link_config = {'bw': 20}
+        link_config = {}
+        switch_link_config = {}
 
         # Add switches
         for i in range(4):
@@ -48,7 +48,7 @@ if __name__ == '__main__':
     net.build()
     net.start()
 
-    subprocess.call("./script2.sh")
+    subprocess.call("./scriptCritical.sh")
 
     CLI(net)
     net.stop()
