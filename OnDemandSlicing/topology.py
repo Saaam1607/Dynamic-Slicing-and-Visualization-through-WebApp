@@ -13,6 +13,7 @@ class OnDemandSlicingTopo(Topo):
         Topo.__init__(self)
 
         link_config = {'bw': 10}
+        switch_link_config = {'bw': 20}
 
         # Add switches
         for i in range(4):
@@ -23,10 +24,10 @@ class OnDemandSlicingTopo(Topo):
             self.addHost('h%d' % (i + 1))
         
         # Add links for switch
-        self.addLink('s1', 's2', **link_config)
-        self.addLink('s1', 's3', **link_config)
-        self.addLink('s2', 's4', **link_config)
-        self.addLink('s3', 's4', **link_config)
+        self.addLink('s1', 's2', **switch_link_config)
+        self.addLink('s1', 's3', **switch_link_config)
+        self.addLink('s2', 's4', **switch_link_config)
+        self.addLink('s3', 's4', **switch_link_config)
 
         # Add links for host
         self.addLink('h1', 's1', **link_config)
