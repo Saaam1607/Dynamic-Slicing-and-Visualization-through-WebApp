@@ -1,41 +1,56 @@
 #!/bin/sh
 
 # S1
-sudo ovs-vsctl -- \ 
+echo ' ---------------------------------------------- '
+echo '*** Network Slicing: Creating 2 slices of 5 Mbps each ...'
+echo 'Switch 1:'
+sudo ovs-vsctl -- \
 set port s1-eth1 qos=@newqos -- \
 set port s1-eth2 qos=@newqos -- \
 --id=@newqos create QoS type=linux-htb \
-other-config:max-rate=20000000 \
+other-config:max-rate=10000000 \
 queues:123=@1q \
 queues:234=@2q -- \
---id=@1q create queue other-config:min-rate=1000000 other-config:max-rate=10000000 -- \
---id=@2q create queue other-config:min-rate=1000000 other-config:max-rate=10000000
+--id=@1q create queue other-config:min-rate=1000000 other-config:max-rate=5000000 -- \
+--id=@2q create queue other-config:min-rate=1000000 other-config:max-rate=5000000
 # S2
-sudo ovs-vsctl -- \ 
+echo 'Switch 2:'
+sudo ovs-vsctl -- \
 set port s2-eth1 qos=@newqos -- \
 set port s2-eth2 qos=@newqos -- \
 --id=@newqos create QoS type=linux-htb \
-other-config:max-rate=20000000 \
+other-config:max-rate=10000000 \
 queues:123=@1q \
---id=@1q create queue other-config:min-rate=1000000 other-config:max-rate=10000000
+queues:234=@2q -- \
+--id=@1q create queue other-config:min-rate=1000000 other-config:max-rate=5000000 -- \
+--id=@2q create queue other-config:min-rate=1000000 other-config:max-rate=5000000
+
 # S3
-sudo ovs-vsctl -- \ 
+echo 'Switch 3:'
+sudo ovs-vsctl -- \
 set port s1-eth1 qos=@newqos -- \
 set port s1-eth2 qos=@newqos -- \
 --id=@newqos create QoS type=linux-htb \
-other-config:max-rate=20000000 \
+other-config:max-rate=10000000 \
 queues:123=@1q \
 queues:234=@2q -- \
---id=@1q create queue other-config:min-rate=1000000 other-config:max-rate=10000000 -- \
---id=@2q create queue other-config:min-rate=1000000 other-config:max-rate=10000000
+--id=@1q create queue other-config:min-rate=1000000 other-config:max-rate=5000000 -- \
+--id=@2q create queue other-config:min-rate=1000000 other-config:max-rate=5000000
+
 # S4
-sudo ovs-vsctl -- \ 
+echo 'Switch 4:'
+sudo ovs-vsctl -- \
 set port s4-eth1 qos=@newqos -- \
 set port s4-eth2 qos=@newqos -- \
 --id=@newqos create QoS type=linux-htb \
-other-config:max-rate=20000000 \
+other-config:max-rate=10000000 \
+queues:123=@1q \
 queues:234=@2q -- \
---id=@2q create queue other-config:min-rate=1000000 other-config:max-rate=10000000
+--id=@1q create queue other-config:min-rate=1000000 other-config:max-rate=5000000 -- \
+--id=@2q create queue other-config:min-rate=1000000 other-config:max-rate=5000000
+
+echo '*** End of Creating the Slices ...'
+echo ' ---------------------------------------------- '
 
 # h1 deve raggiungere h4, utilizzando q1
 # h2 deve raggiungere h5, utilizzando q2

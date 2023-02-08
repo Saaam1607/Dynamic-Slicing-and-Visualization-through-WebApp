@@ -48,7 +48,7 @@ if __name__ == '__main__':
     net.build()
     net.start()
 
-    subprocess.call("./script.sh")
+    subprocess.call("./script2.sh")
 
     CLI(net)
     net.stop()
