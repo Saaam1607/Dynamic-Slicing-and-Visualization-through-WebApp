@@ -31,10 +31,10 @@ class TrafficSlicing(app_manager.RyuApp):
 
         # Source Mapping        
         self.port_to_port = {
-            1: {3:1, 4:2, 5:2},
+            1: {3:1, 4:2, 5:2, 1:3, 2:4, 2:5},
             2: {2:1, 1:2},
             3: {2:1, 1:2},
-            4: {3:1, 4:2, 5:2},
+            4: {3:1, 4:2, 5:2, 1:3, 2:4, 2:5},
         }
         self.end_swtiches = [1, 4]
         
