@@ -53,75 +53,48 @@ queues:123=@1q queues:234=@2q queues:345=@3q -- \
 echo '*** End of Creating the Slices ...'
 echo ' ---------------------------------------------- '
 
-# h1 deve raggiungere h4, utilizzando q1
-# h2 deve raggiungere h5, utilizzando q2
-
+echo 'Configuring S1'
+# [SWITCH 1]
+# h1 -> p1 [h4] (123)
 sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.1,idle_timeout=0,actions=set_queue:123,output:1
-sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.2,idle_timeout=0,actions=set_queue:234,output:1
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,in_port=3,idle_timeout=0,actions=set_queue:123,output:1
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,in_port=1,idle_timeout=0,actions=set_queue:123,output:3
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,in_port=4,idle_timeout=0,actions=set_queue:234,output:1
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,in_port=1,idle_timeout=0,actions=set_queue:234,output:4
-sudo ovs-ofctl add-flow s1 ip,priority=65500,in_port=5,idle_timeout=0,actions=set_queue:345,output:2
-sudo ovs-ofctl add-flow s1 ip,priority=65500,in_port=2,idle_timeout=0,actions=set_queue:345,output:5
+# p1 [h4] -> p3 [h1] (123)
+sudo ovs-ofctl add-flow s1 ip,priority=65500,in_port=1,idle_timeout=0,actions=set_queue:123,output:3
+# h2 -> p2 [h5] (234)
+sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.2,idle_timeout=0,actions=set_queue:234,output:2
+# h5 -> p4 [h2] (234)
+sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.5,idle_timeout=0,actions=set_queue:234,output:4
+# h3 -> p2 [h6] (345)
+sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.3,idle_timeout=0,actions=set_queue:345,output:2
+# h6 -> p5 [h3] (345)
+sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.6,idle_timeout=0,actions=set_queue:345,output:5
 
-sudo ovs-ofctl add-flow s2 table=0,priority=65500,in_port=1,actions=set_queue:123,output:2
-sudo ovs-ofctl add-flow s2 table=0,priority=65500,in_port=2,actions=set_queue:123,output:1
-sudo ovs-ofctl add-flow s3 table=0,priority=65500,in_port=1,actions=set_queue:234,output:2
-sudo ovs-ofctl add-flow s3 table=0,priority=65500,in_port=2,actions=set_queue:234,output:1
+echo 'Configuring S2'
+# [SWITCH 2]
+sudo ovs-ofctl add-flow s2 ip,table=0,priority=65500,in_port=1,actions=set_queue:123,output:2
+sudo ovs-ofctl add-flow s2 ip,table=0,priority=65500,in_port=2,actions=set_queue:123,output:1
 
-sudo ovs-ofctl add-flow s4 ip,priority=65500,nw_src=10.0.0.1,idle_timeout=0,actions=set_queue:123,output:3
-sudo ovs-ofctl add-flow s4 ip,priority=65500,nw_src=10.0.0.2,idle_timeout=0,actions=set_queue:234,output:4
-# sudo ovs-ofctl add-flow s4 ip,priority=65500,in_port=1,idle_timeout=0,actions=set_queue:123,output:3
-# sudo ovs-ofctl add-flow s4 ip,priority=65500,in_port=3,idle_timeout=0,actions=set_queue:123,output:1
-# sudo ovs-ofctl add-flow s4 ip,priority=65500,in_port=1,idle_timeout=0,actions=set_queue:234,output:4
-# sudo ovs-ofctl add-flow s4 ip,priority=65500,in_port=4,idle_timeout=0,actions=set_queue:234,output:1
-sudo ovs-ofctl add-flow s4 ip,priority=65500,in_port=2,idle_timeout=0,actions=set_queue:345,output:5
-sudo ovs-ofctl add-flow s4 ip,priority=65500,in_port=5,idle_timeout=0,actions=set_queue:345,output:2
+echo 'Configuring S3'
+# [SWITCH 3]
+# h2 -> p2 [h5]
+sudo ovs-ofctl add-flow s3 ip,table=0,priority=65500,nw_src=10.0.0.2,actions=set_queue:234,output:2
+# h5 -> p1 [h2]
+sudo ovs-ofctl add-flow s3 ip,table=0,priority=65500,nw_src=10.0.0.5,actions=set_queue:234,output:1
+# h3 -> p2 [h6]
+sudo ovs-ofctl add-flow s3 ip,table=0,priority=65500,nw_src=10.0.0.3,actions=set_queue:345,output:2
+# h6 -> p1 [h3]
+sudo ovs-ofctl add-flow s3 ip,table=0,priority=65500,nw_src=10.0.0.6,actions=set_queue:345,output:1
 
-
-
-# # droppiamo altre combinazioni
-# # [ SWITCH 1 ]
-# # SRC h1
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.1,nw_dst=10.0.0.2,idle_timeout=0,actions=drop
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.1,nw_dst=10.0.0.3,idle_timeout=0,actions=drop
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.1,nw_dst=10.0.0.5,idle_timeout=0,actions=drop
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.1,nw_dst=10.0.0.6,idle_timeout=0,actions=drop
-# # SRC h2
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.2,nw_dst=10.0.0.1,idle_timeout=0,actions=drop
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.2,nw_dst=10.0.0.3,idle_timeout=0,actions=drop
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.2,nw_dst=10.0.0.4,idle_timeout=0,actions=drop
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.2,nw_dst=10.0.0.6,idle_timeout=0,actions=drop
-# # SRC h3
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.3,nw_dst=10.0.0.1,idle_timeout=0,actions=drop
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.3,nw_dst=10.0.0.2,idle_timeout=0,actions=drop
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.3,nw_dst=10.0.0.4,idle_timeout=0,actions=drop
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.3,nw_dst=10.0.0.5,idle_timeout=0,actions=drop
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.3,nw_dst=10.0.0.6,idle_timeout=0,actions=drop
-# # SRC h4
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.4,nw_dst=10.0.0.2,idle_timeout=0,actions=drop
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.4,nw_dst=10.0.0.3,idle_timeout=0,actions=drop
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.4,nw_dst=10.0.0.5,idle_timeout=0,actions=drop
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.4,nw_dst=10.0.0.6,idle_timeout=0,actions=drop
-# # SRC h5
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.5,nw_dst=10.0.0.1,idle_timeout=0,actions=drop
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.5,nw_dst=10.0.0.3,idle_timeout=0,actions=drop
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.5,nw_dst=10.0.0.4,idle_timeout=0,actions=drop
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.5,nw_dst=10.0.0.6,idle_timeout=0,actions=drop
-# # SRC h6
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.6,nw_dst=10.0.0.1,idle_timeout=0,actions=drop
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.6,nw_dst=10.0.0.2,idle_timeout=0,actions=drop
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.6,nw_dst=10.0.0.3,idle_timeout=0,actions=drop
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.6,nw_dst=10.0.0.4,idle_timeout=0,actions=drop
-# sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.6,nw_dst=10.0.0.5,idle_timeout=0,actions=drop
-# # [ SWITCH 4 ]
-# # SRC h4
-# sudo ovs-ofctl add-flow s4 ip,priority=65500,nw_src=10.0.0.4,nw_dst=10.0.0.5,idle_timeout=0,actions=drop
-# sudo ovs-ofctl add-flow s4 ip,priority=65500,nw_src=10.0.0.4,nw_dst=10.0.0.6,idle_timeout=0,actions=drop
-# # SRC h5
-# sudo ovs-ofctl add-flow s4 ip,priority=65500,nw_src=10.0.0.5,nw_dst=10.0.0.4,idle_timeout=0,actions=drop
-# sudo ovs-ofctl add-flow s4 ip,priority=65500,nw_src=10.0.0.5,nw_dst=10.0.0.6,idle_timeout=0,actions=drop
-# # SRC h6
-# sudo ovs-ofctl add-flow s4 ip,priority=65500,nw_src=10.0.0.6,nw_dst=10.0.0.4,idle_timeout=0,actions=drop
-# sudo ovs-ofctl add-flow s4 ip,priority=65500,nw_src=10.0.0.6,nw_dst=10.0.0.5,idle_timeout=0,actions=drop
+echo 'Configuring S4'
+# [SWITCH 4]
+# p3 [h4] -> p1 [h1] (123)
+sudo ovs-ofctl add-flow s4 priority=65500,in_port=3,idle_timeout=0,actions=set_queue:123,output:1
+# p1 [h1] -> p3 [h4] (123)
+sudo ovs-ofctl add-flow s4 priority=65500,in_port=1,idle_timeout=0,actions=set_queue:123,output:3
+# p4 [h5] -> p2 [h2]
+sudo ovs-ofctl add-flow s4 priority=65500,in_port=4,idle_timeout=0,actions=set_queue:234,output:2
+# h2 -> p4 [h5]
+sudo ovs-ofctl add-flow s4 ip,table=0,priority=65500,nw_src=10.0.0.2,actions=set_queue:234,output:4
+# p5 [h6] -> p2 [h3]
+sudo ovs-ofctl add-flow s4 priority=65500,in_port=5,idle_timeout=0,actions=set_queue:345,output:2
+# h3 -> p5 [h6]
+sudo ovs-ofctl add-flow s4 ip,table=0,priority=65500,nw_src=10.0.0.3,actions=set_queue:345,output:5
