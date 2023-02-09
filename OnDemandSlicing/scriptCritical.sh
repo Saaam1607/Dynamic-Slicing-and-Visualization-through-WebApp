@@ -21,10 +21,9 @@ set port s2-eth1 qos=@newqos -- \
 set port s2-eth2 qos=@newqos -- \
 --id=@newqos create QoS type=linux-htb \
 other-config:max-rate=20000000 \
-queues:123=@1q queues:234=@2q queues:345=@3q -- \
+queues:123=@1q -- \
 --id=@1q create queue other-config:min-rate=1000000 other-config:max-rate=5000000 -- \
---id=@2q create queue other-config:min-rate=1000000 other-config:max-rate=5000000 -- \
---id=@3q create queue other-config:min-rate=1000000 other-config:max-rate=10000000
+
 
 # S3
 echo 'Switch 3:'
@@ -33,8 +32,7 @@ set port s1-eth1 qos=@newqos -- \
 set port s1-eth2 qos=@newqos -- \
 --id=@newqos create QoS type=linux-htb \
 other-config:max-rate=20000000 \
-queues:123=@1q queues:234=@2q queues:345=@3q -- \
---id=@1q create queue other-config:min-rate=1000000 other-config:max-rate=5000000 -- \
+queues:234=@2q queues:345=@3q -- \
 --id=@2q create queue other-config:min-rate=1000000 other-config:max-rate=5000000 -- \
 --id=@3q create queue other-config:min-rate=1000000 other-config:max-rate=10000000
 
@@ -53,7 +51,6 @@ queues:123=@1q queues:234=@2q queues:345=@3q -- \
 echo '*** End of Creating the Slices ...'
 echo ' ---------------------------------------------- '
 
-echo 'Configuring S1'
 # [SWITCH 1]
 # h1 -> p1 [h4] (123)
 sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.1,idle_timeout=0,actions=set_queue:123,output:1
@@ -68,12 +65,10 @@ sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.3,idle_timeout=0,acti
 # h6 -> p5 [h3] (345)
 sudo ovs-ofctl add-flow s1 ip,priority=65500,nw_src=10.0.0.6,idle_timeout=0,actions=set_queue:345,output:5
 
-echo 'Configuring S2'
 # [SWITCH 2]
 sudo ovs-ofctl add-flow s2 ip,table=0,priority=65500,in_port=1,actions=set_queue:123,output:2
 sudo ovs-ofctl add-flow s2 ip,table=0,priority=65500,in_port=2,actions=set_queue:123,output:1
 
-echo 'Configuring S3'
 # [SWITCH 3]
 # h2 -> p2 [h5]
 sudo ovs-ofctl add-flow s3 ip,table=0,priority=65500,nw_src=10.0.0.2,actions=set_queue:234,output:2
@@ -84,7 +79,6 @@ sudo ovs-ofctl add-flow s3 ip,table=0,priority=65500,nw_src=10.0.0.3,actions=set
 # h6 -> p1 [h3]
 sudo ovs-ofctl add-flow s3 ip,table=0,priority=65500,nw_src=10.0.0.6,actions=set_queue:345,output:1
 
-echo 'Configuring S4'
 # [SWITCH 4]
 # p3 [h4] -> p1 [h1] (123)
 sudo ovs-ofctl add-flow s4 priority=65500,in_port=3,idle_timeout=0,actions=set_queue:123,output:1
