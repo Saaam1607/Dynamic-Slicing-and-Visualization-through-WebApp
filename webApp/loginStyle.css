@@ -1,0 +1,57 @@
+@font-face {
+    font-family: 'customFont';
+    src: url("AntipastoPro_trial.ttf");
+}
+
+body {
+    margin: 0 auto 0 auto;  
+    text-align:center;
+    background-color: #61b6e8;
+}
+
+div {
+    background-color: white;
+    width: 450px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 30px;
+    border-radius: 7px;
+    height: 400px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    font-size: 35px;
+    padding-top: 40px;
+    font-family: customFont;
+}
+
+input {
+    text-align: center;
+    width: 50%;
+    padding: 15px;
+    color: rgb(109, 107, 107);
+    border: 2px solid #ccc;
+    background-color: #ebebeb;
+    font-size: 15px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.107);
+}
+input:hover {
+    background-color: #dcdcdce7;
+}
+input:focus {
+    outline: none !important;
+    background-color: #dcdcdce7;
+}
+
+button {
+    width: 20%;
+    border: 2px solid #ccc;
+    background-color: #ebebeb;
+    cursor: pointer;
+    height: 30px;
+    color: rgb(109, 107, 107);
+}
+button:hover {
+    background-color: #dcdcdce7;
+}
