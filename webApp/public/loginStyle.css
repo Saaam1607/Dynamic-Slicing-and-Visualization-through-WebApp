@@ -9,11 +9,12 @@ body {
     background-color: #61b6e8;
 }
 
-div {
+#login {
     background-color: white;
     width: 450px;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 50px;
     padding-bottom: 30px;
     border-radius: 7px;
     height: 400px;
@@ -28,13 +29,16 @@ h1 {
 
 input {
     text-align: center;
-    width: 50%;
-    padding: 15px;
     color: rgb(109, 107, 107);
     border: 2px solid #ccc;
     background-color: #ebebeb;
-    font-size: 15px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.107);
+}
+
+/*Type of inputs forms*/
+.mb-3{
+    margin: 0 auto 0 auto;
+    width: 80%;
 }
 input:hover {
     background-color: #dcdcdce7;
@@ -45,12 +49,7 @@ input:focus {
 }
 
 button {
-    width: 20%;
-    border: 2px solid #ccc;
-    background-color: #ebebeb;
     cursor: pointer;
-    height: 30px;
-    color: rgb(109, 107, 107);
 }
 button:hover {
     background-color: #dcdcdce7;
