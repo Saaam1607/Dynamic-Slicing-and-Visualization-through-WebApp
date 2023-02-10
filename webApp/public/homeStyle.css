@@ -1,0 +1,19 @@
+div {
+    text-align: center;
+}
+
+.form-check-input {
+    display: block;
+    margin: 50px auto;
+    width: 200px;
+}
+
+img {
+    display: inline-block;
+    margin: 50px auto;
+}
+
+#btnLogout {
+    text-align: right;
+    margin: 15px 15px 0 0;
+}
