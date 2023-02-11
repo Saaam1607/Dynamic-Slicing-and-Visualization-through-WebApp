@@ -17,3 +17,8 @@ img {
     text-align: right;
     margin: 15px 15px 0 0;
 }
+
+#start_stop {
+    font-size: 20px;
+    margin-top: 15px;
+}

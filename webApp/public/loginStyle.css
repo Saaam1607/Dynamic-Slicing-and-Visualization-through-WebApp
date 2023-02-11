@@ -54,3 +54,10 @@ button {
 button:hover {
     background-color: #dcdcdce7;
 }
+
+p {
+    font-size: 20px;
+    color: rgb(184, 49, 49);
+    margin-top: 10px;
+    font-family: customFont;
+}

@@ -13,7 +13,13 @@ function login(){
     if (username == USERNAME && password == PASSWORD){
         window.location.href = "home.html";
     }else{
-        alert("Errore: Username o Password errati")
+        // alert("Errore: Username o Password errati")
+
+        // Reset input fields
+        document.getElementById("Username").value = "";
+        document.getElementById("Password").value = "";
+        document.getElementById("Username").focus();
+        document.getElementById("loginError").innerHTML = "Incorrect username or password";
     }
 }
 
@@ -53,11 +59,10 @@ function changeScenario(){
 }
 
 function startNetwork(){
-    console.log("Start Network");
-
+    
+    document.getElementById("start_stop").innerHTML = "Starting network...";
     document.getElementById("startNetwork").disabled = true;
     document.getElementById("stopNetwork").disabled = false;
-    document.getElementById("danger-outlined").disabled = false; // sos button
 
     // Call API to start network
     fetch('api/v1/startNetwork', {
@@ -66,17 +71,31 @@ function startNetwork(){
             'Content-Type': 'application/json'
             },
             body: JSON.stringify({ "start": true })
-        });
+    })
+    .then(resp => resp.json())
+    .then(function(data) {
+
+        setTimeout(function(){ //Timeout to simulate network start
+
+        if (data.success){
+            document.getElementById("danger-outlined").disabled = false; // sos button
+            document.getElementById("start_stop").innerHTML = "Network started";
+        }else{
+            document.getElementById("start_stop").innerHTML = "Error: network not started";
+            document.getElementById("startNetwork").disabled = false;
+            document.getElementById("stopNetwork").disabled = true;
+        }
+        }, 3000);
+    })
 }
 
 function stopNetwork(){
-    console.log("Stop Network");
 
+    document.getElementById("start_stop").innerHTML = "Stopping network...";
     document.getElementById("startNetwork").disabled = false;
     document.getElementById("stopNetwork").disabled = true;
     document.getElementById("danger-outlined").checked = false;
     document.getElementById("danger-outlined").disabled = true; // sos button
-
 
     // Switch to default topology
     document.getElementById("topology").src = STD_TOPOLOGY;
@@ -88,7 +107,19 @@ function stopNetwork(){
             'Content-Type': 'application/json'
             },
             body: JSON.stringify({ "stop": true })
-        });
+    })
+    .then(resp => resp.json())
+    .then(function(data) {
+
+        setTimeout(function(){ //Timeout to simulate network stop
+
+        if (data.success){
+            document.getElementById("start_stop").innerHTML = "Network stopped";
+        }else{
+            document.getElementById("start_stop").innerHTML = "Error: network not stopped";
+        }
+        }, 3000);
+    });
 }
 
 function logout(){

@@ -13,28 +13,36 @@ app.post('/api/v1/startNetwork', function(req, res) {
     console.log('Start Network');
     let data = req.body;
     console.log(data);
-    res.send('Start Network');
+    res.status(200).json({
+        success: true
+    });
 });
 
 app.post('/api/v1/stopNetwork', function(req, res) {
     console.log('Stop Network');
     let data = req.body;
     console.log(data);
-    res.send('Stop Network');
+    res.status(200).json({
+        success: true
+    });
 });
 
 app.post('/api/v1/sosScenario', function(req, res) {
     console.log('SOS Scenario');
     let data = req.body;
     console.log(data);
-    res.send('SOS Scenario');
+    res.status(200).json({
+        success: true
+    });
 });
 
 app.post('/api/v1/standardScenario', function(req, res) {
     console.log('Standard Scenario');
     let data = req.body;
     console.log(data);
-    res.send('Standard Scenario');
+    res.status(200).json({
+        success: true
+    });
 });
 
 app.listen(PORT, function() {
