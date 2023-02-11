@@ -17,7 +17,7 @@ function login(){
     }
 }
 
-function sosScenario(){
+function changeScenario(){
     // console.log("SOS Scenario");
 
     let img = document.getElementById("topology");
@@ -26,10 +26,30 @@ function sosScenario(){
 
     // Change topology
     let std_topology = STD_TOPOLOGY.split("/").pop();
-    if (imgScenario == std_topology)
+    if (imgScenario == std_topology){
+        // Change to sos topology
         img.src = SOS_TOPOLOGY;
-    else
+
+        fetch('api/v1/sosScenario', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ "sos": true })
+            });
+
+    }else{
+        // Change to standard topology
         img.src = STD_TOPOLOGY;
+
+        fetch('api/v1/standardScenario', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ "sos": false })
+            });
+    }
 }
 
 function startNetwork(){
@@ -38,6 +58,15 @@ function startNetwork(){
     document.getElementById("startNetwork").disabled = true;
     document.getElementById("stopNetwork").disabled = false;
     document.getElementById("danger-outlined").disabled = false; // sos button
+
+    // Call API to start network
+    fetch('api/v1/startNetwork', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ "start": true })
+        });
 }
 
 function stopNetwork(){
@@ -45,10 +74,21 @@ function stopNetwork(){
 
     document.getElementById("startNetwork").disabled = false;
     document.getElementById("stopNetwork").disabled = true;
+    document.getElementById("danger-outlined").checked = false;
     document.getElementById("danger-outlined").disabled = true; // sos button
+
 
     // Switch to default topology
     document.getElementById("topology").src = STD_TOPOLOGY;
+
+    // Call API to stop network
+    fetch('api/v1/stopNetwork', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ "stop": true })
+        });
 }
 
 function logout(){
