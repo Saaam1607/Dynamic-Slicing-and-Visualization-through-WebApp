@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
 
+# clear mininet
+sudo mn -c
+# sleep 1 second
+sleep 1
 # run ryu controller
-ryu-manager ~/ProgettoNet2/OnDemandSlicing/controller.py &
+ryu-manager ~/comnetsemu/progettoNet2/OnDemandSlicing/controller.py &
 # sleep 1 second
 sleep 1
 # run mininet
-sudo python3 ~/ProgettoNet2/OnDemandSlicing/topology.py
+cd ~/comnetsemu/progettoNet2/OnDemandSlicing
+sudo python3 ~/comnetsemu/progettoNet2/OnDemandSlicing/topology.py

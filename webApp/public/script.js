@@ -75,8 +75,6 @@ function startNetwork(){
     .then(resp => resp.json())
     .then(function(data) {
 
-        setTimeout(function(){ //Timeout to simulate network start
-
         if (data.success){
             document.getElementById("danger-outlined").disabled = false; // sos button
             document.getElementById("start_stop").innerHTML = "Network started";
@@ -85,8 +83,7 @@ function startNetwork(){
             document.getElementById("startNetwork").disabled = false;
             document.getElementById("stopNetwork").disabled = true;
         }
-        }, 3000);
-    })
+    });
 }
 
 function stopNetwork(){
@@ -111,14 +108,11 @@ function stopNetwork(){
     .then(resp => resp.json())
     .then(function(data) {
 
-        setTimeout(function(){ //Timeout to simulate network stop
-
         if (data.success){
             document.getElementById("start_stop").innerHTML = "Network stopped";
         }else{
             document.getElementById("start_stop").innerHTML = "Error: network not stopped";
         }
-        }, 3000);
     });
 }
 
