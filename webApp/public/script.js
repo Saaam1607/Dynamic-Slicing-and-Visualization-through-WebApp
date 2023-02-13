@@ -42,7 +42,13 @@ function changeScenario(){
                 'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ "sos": true })
-            });
+        })
+        .then(resp => resp.json())
+        .then(function(data) {
+            if (data.success){
+                document.getElementById("start_stop").innerHTML = "SOS scenario";
+            }
+        });
 
     }else{
         // Change to standard topology
@@ -56,64 +62,6 @@ function changeScenario(){
                 body: JSON.stringify({ "sos": false })
             });
     }
-}
-
-function startNetwork(){
-    
-    document.getElementById("start_stop").innerHTML = "Starting network...";
-    document.getElementById("startNetwork").disabled = true;
-    document.getElementById("stopNetwork").disabled = false;
-
-    // Call API to start network
-    fetch('api/v1/startNetwork', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ "start": true })
-    })
-    .then(resp => resp.json())
-    .then(function(data) {
-
-        if (data.success){
-            document.getElementById("danger-outlined").disabled = false; // sos button
-            document.getElementById("start_stop").innerHTML = "Network started";
-        }else{
-            document.getElementById("start_stop").innerHTML = "Error: network not started";
-            document.getElementById("startNetwork").disabled = false;
-            document.getElementById("stopNetwork").disabled = true;
-        }
-    });
-}
-
-function stopNetwork(){
-
-    document.getElementById("start_stop").innerHTML = "Stopping network...";
-    document.getElementById("startNetwork").disabled = false;
-    document.getElementById("stopNetwork").disabled = true;
-    document.getElementById("danger-outlined").checked = false;
-    document.getElementById("danger-outlined").disabled = true; // sos button
-
-    // Switch to default topology
-    document.getElementById("topology").src = STD_TOPOLOGY;
-
-    // Call API to stop network
-    fetch('api/v1/stopNetwork', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ "stop": true })
-    })
-    .then(resp => resp.json())
-    .then(function(data) {
-
-        if (data.success){
-            document.getElementById("start_stop").innerHTML = "Network stopped";
-        }else{
-            document.getElementById("start_stop").innerHTML = "Error: network not stopped";
-        }
-    });
 }
 
 function logout(){
