@@ -28,7 +28,7 @@ function changeScenario(){
 
     let img = document.getElementById("topology");
     let imgScenario = img.src.split("/").pop();
-    // console.log(img)
+    // console.log(img);
 
     // Change topology
     let std_topology = STD_TOPOLOGY.split("/").pop();
@@ -62,6 +62,20 @@ function changeScenario(){
                 body: JSON.stringify({ "sos": false })
             });
     }
+}
+
+function networkInfo(){
+    
+    fetch('http://192.168.56.2:8080/stats/switches', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+    .then(resp => resp.json())
+    .then(function(data) {
+        console.log(data);
+    });
 }
 
 function logout(){
