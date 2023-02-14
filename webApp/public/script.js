@@ -5,6 +5,16 @@ const PASSWORD = 'admin';
 const STD_TOPOLOGY = "images/scenario1.png";
 const SOS_TOPOLOGY = "images/scenario2.png";
 
+// var iframe = document.getElementById('networkInfo');
+// var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
+
+// var button = innerDoc.getElementById('SaveSwitchs');
+// button.parentNode.removeChild(button);
+// button = innerDoc.getElementById('SaveHosts');
+// button.parentNode.removeChild(button);
+// button = innerDoc.getElementById('SaveLinks');
+// button.parentNode.removeChild(button);
+
 function login(){
 
     let username = document.getElementById("Username").value;
@@ -43,7 +53,7 @@ function startNetwork(){
             document.getElementById("start_stop").innerHTML = "Network started";
 
             document.getElementById("stopNetwork").disabled = false;
-            
+
             document.getElementById("success-outlined").disabled = false;
             document.getElementById("danger-outlined").disabled = false;
             document.getElementById("resetBtn").disabled = false;
