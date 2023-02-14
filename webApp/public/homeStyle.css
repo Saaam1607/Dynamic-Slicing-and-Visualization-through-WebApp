@@ -16,7 +16,7 @@ div {
     margin-right: auto;
     margin-top: 20px;
     border-radius: 7px;
-    height: 950px;
+    height: 1100px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -24,20 +24,16 @@ h1 {
     padding-top: 40px;
 }
 
-.form-check-input {
-    display: block;
-    margin: 50px auto;
-    width: 200px;
-}
-
-img {
-    display: inline-block;
-    margin: 50px auto;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.107);
-}
-
 button {
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.107);
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+label {
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.107);
+    margin-left: 10px;
+    margin-right: 10px;
 }
 
 #btnLogout {
@@ -45,7 +41,12 @@ button {
     margin: 15px 15px 0 0;
 }
 
-#start_stop {
-    font-size: 20px;
-    margin-top: 15px;
+#networkInfo {
+    border: none;
+    margin-bottom: -100px;
+}
+
+p {
+    margin: 10px;
+    font-size: 30px;
 }
