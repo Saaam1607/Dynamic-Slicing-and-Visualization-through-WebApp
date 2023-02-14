@@ -22,7 +22,7 @@ class OnDemandSlicingTopo(Topo):
             sconfig = {'dpid': "%016x" % (i + 1)}
             self.addSwitch('s%d' % (i + 1), **sconfig)
         # Add hosts
-        for i in range(6):
+        for i in range(8):
             self.addHost('h%d' % (i + 1))
         
         # Add links for switch
@@ -38,6 +38,8 @@ class OnDemandSlicingTopo(Topo):
         self.addLink('h4', 's4', **link_config)
         self.addLink('h5', 's4', **link_config)
         self.addLink('h6', 's4', **link_config)
+        self.addLink('h7', 's1', **link_config)
+        self.addLink('h8', 's4', **link_config)
 
 topos = {'on_demand_slicing_topo': (lambda: OnDemandSlicingTopo())}
 

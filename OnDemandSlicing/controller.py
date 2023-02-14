@@ -19,24 +19,24 @@ class TrafficSlicing(app_manager.RyuApp):
         super(TrafficSlicing, self).__init__(*args, **kwargs)
 
         self.mac_to_port = {
-            1: {"00:00:00:00:00:01": 3 ,"00:00:00:00:00:02": 4, "00:00:00:00:00:03": 5, "00:00:00:00:00:04": 1, "00:00:00:00:00:05": 2, "00:00:00:00:00:06": 2},
-            2: {"00:00:00:00:00:01": 1, "00:00:00:00:00:04": 2},
+            1: {"00:00:00:00:00:01": 3 ,"00:00:00:00:00:02": 4, "00:00:00:00:00:03": 5, "00:00:00:00:00:04": 1, "00:00:00:00:00:05": 2, "00:00:00:00:00:06": 2, "00:00:00:00:00:07": 6, "00:00:00:00:00:08": 1},
+            2: {"00:00:00:00:00:01": 1, "00:00:00:00:00:04": 2, "00:00:00:00:00:07": 1, "00:00:00:00:00:08": 2},
             3: {"00:00:00:00:00:02": 1, "00:00:00:00:00:03": 1,"00:00:00:00:00:05": 2, "00:00:00:00:00:06": 2},
-            4: {"00:00:00:00:00:01": 1, "00:00:00:00:00:02": 2, "00:00:00:00:00:03": 2, "00:00:00:00:00:04": 3, "00:00:00:00:00:05": 4, "00:00:00:00:00:06": 5},
+            4: {"00:00:00:00:00:01": 1, "00:00:00:00:00:02": 2, "00:00:00:00:00:03": 2, "00:00:00:00:00:04": 3, "00:00:00:00:00:05": 4, "00:00:00:00:00:06": 5, "00:00:00:00:00:07": 1, "00:00:00:00:00:08": 6},
         }
         
-        self.criticalService = 0          # flag for enabling/disabling critical service
-        self.time = time.time()           # Timer that keeps track of time for a critical service
+        # self.criticalService = 0          # flag for enabling/disabling critical service
+        # self.time = time.time()           # Timer that keeps track of time for a critical service
       
 
-        # Source Mapping        
-        self.port_to_port = {
-            1: {3:1, 4:2, 5:2, 1:3, 2:4, 2:5},
-            2: {2:1, 1:2},
-            3: {2:1, 1:2},
-            4: {3:1, 4:2, 5:2, 1:3, 2:4, 2:5},
-        }
-        self.end_swtiches = [1, 4]
+        # # Source Mapping        
+        # self.port_to_port = {
+        #     1: {3:1, 4:2, 5:2, 1:3, 2:4, 2:5},
+        #     2: {2:1, 1:2},
+        #     3: {2:1, 1:2},
+        #     4: {3:1, 4:2, 5:2, 1:3, 2:4, 2:5},
+        # }
+        # self.end_swtiches = [1, 4]
         
 
 
@@ -94,27 +94,15 @@ class TrafficSlicing(app_manager.RyuApp):
         
         dst = eth.dst
         src = eth.src
-        
         dpid = datapath.id
         
-        if dpid in self.mac_to_port:
-            if (self.criticalService == 1): # critical service scenario
-                
-                if dst in self.mac_to_port[dpid]:
-                    out_port = self.mac_to_port[dpid][dst]
-                    actions = [datapath.ofproto_parser.OFPActionOutput(out_port)]
-                    match = datapath.ofproto_parser.OFPMatch(eth_dst=dst)
-                    self.add_flow(datapath, 1, match, actions)
-                    self._send_package(msg, datapath, in_port, actions)
-            else:                    
-                if dst in self.mac_to_port[dpid]:
-                    out_port = self.mac_to_port[dpid][dst]
-                    actions = [datapath.ofproto_parser.OFPActionOutput(out_port)]
-                    match = datapath.ofproto_parser.OFPMatch(eth_dst=dst)
-                    self.add_flow(datapath, 1, match, actions)
-                    self._send_package(msg, datapath, in_port, actions)
+        if dst in self.mac_to_port[dpid]:
+            out_port = self.mac_to_port[dpid][dst]
+            actions = [datapath.ofproto_parser.OFPActionOutput(out_port)]
+            match = datapath.ofproto_parser.OFPMatch(eth_dst=dst)
+            self.add_flow(datapath, 1, match, actions)
+            self._send_package(msg, datapath, in_port, actions)
 
-                    
     # # Function that automates the alternation between Emergency and Non-Emergency Scenario                
     # def timer(self):
     #     while True:
@@ -133,6 +121,3 @@ class TrafficSlicing(app_manager.RyuApp):
     #         subprocess.call("./script.sh")     # End of Emergency - Return to 2 slices
     #         self.criticalService = 0
     #         self.time = time.time()
-
-                    
-                

@@ -4,10 +4,7 @@ from webob.static import DirectoryApp
 from ryu.app.wsgi import ControllerBase, WSGIApplication, route
 from ryu.base import app_manager
 
-
-
 PATH = os.path.dirname(__file__)
-
 
 # Serving static files
 class GUIServerApp(app_manager.RyuApp):
@@ -21,7 +18,6 @@ class GUIServerApp(app_manager.RyuApp):
         wsgi = kwargs['wsgi']
         wsgi.register(GUIServerController)
 
-
 class GUIServerController(ControllerBase):
     
     def __init__(self, req, link, data, **config):
@@ -34,13 +30,6 @@ class GUIServerController(ControllerBase):
         if kwargs['filename']:
             req.path_info = kwargs['filename']
         return self.static_app(req)
-
-  
-    
-
-    
-
-
 
 app_manager.require_app('ryu.app.rest_topology')
 app_manager.require_app('ryu.app.ws_topology')
