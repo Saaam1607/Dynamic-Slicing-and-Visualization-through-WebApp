@@ -23,58 +23,132 @@ function login(){
     }
 }
 
-function changeScenario(){
-    // console.log("SOS Scenario");
+function startNetwork(){
 
-    let img = document.getElementById("topology");
-    let imgScenario = img.src.split("/").pop();
-    // console.log(img);
+    document.getElementById("start_stop").innerHTML = "Starting network...";
 
-    // Change topology
-    let std_topology = STD_TOPOLOGY.split("/").pop();
-    if (imgScenario == std_topology){
-        // Change to sos topology
-        img.src = SOS_TOPOLOGY;
+    document.getElementById("startNetwork").disabled = true;
 
-        fetch('api/v1/sosScenario', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ "sos": true })
-        })
-        .then(resp => resp.json())
-        .then(function(data) {
-            if (data.success){
-                document.getElementById("start_stop").innerHTML = "SOS scenario";
-            }
-        });
-
-    }else{
-        // Change to standard topology
-        img.src = STD_TOPOLOGY;
-
-        fetch('api/v1/standardScenario', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ "sos": false })
-            });
-    }
-}
-
-function networkInfo(){
-    
-    fetch('http://192.168.56.2:8080/stats/switches', {
-        method: 'GET',
+    fetch('api/v1/startNetwork', {
+        method: 'POST',
         headers: {
-            'Content-Type': 'application/json',
-        },
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ "start": true })
     })
     .then(resp => resp.json())
     .then(function(data) {
-        console.log(data);
+        if (data.success){
+            //Enable buttons
+            document.getElementById("start_stop").innerHTML = "Network started";
+
+            document.getElementById("stopNetwork").disabled = false;
+            
+            document.getElementById("success-outlined").disabled = false;
+            document.getElementById("danger-outlined").disabled = false;
+            document.getElementById("resetBtn").disabled = false;
+        }else{
+            document.getElementById("start_stop").innerHTML = "Error starting network";
+            document.getElementById("startNetwork").disabled = true; //Re-enable start button
+        }
+    });
+}
+
+function stopNetwork(){
+
+    document.getElementById("start_stop").innerHTML = "Stopping network...";
+
+    document.getElementById("stopNetwork").disabled = true;
+
+    fetch('api/v1/stopNetwork', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ "stop": true })
+    })
+    .then(resp => resp.json())
+    .then(function(data) {
+        if (data.success){
+            document.getElementById("start_stop").innerHTML = "Network stopped";
+
+            document.getElementById("startNetwork").disabled = false;
+
+            document.getElementById("success-outlined").disabled = true;
+            document.getElementById("success-outlined").checked = false;
+
+            document.getElementById("danger-outlined").disabled = true;
+            document.getElementById("danger-outlined").checked = false;
+
+            document.getElementById("resetBtn").disabled = true;
+
+        }else{
+            document.getElementById("start_stop").innerHTML = "Error stopping network";
+            document.getElementById("stopNetwork").disabled = false;
+        }
+    });
+}
+
+function stdScenario(){
+    
+    fetch('api/v1/stdScenario', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+            },
+        body: JSON.stringify({ "sos": false })
+    })
+    .then(resp => resp.json())
+    .then(function(data) {
+        if (data.success){
+            document.getElementById("topology").src = STD_TOPOLOGY;
+        }else{
+            document.getElementById("start_stop").innerHTML = "Error changing topology. Restart network";
+            document.getElementById("success-outlined").checked = false;
+        }
+    });
+}
+
+function sosScenario(){
+    
+    console.log("SOS Scenario");
+
+    fetch('api/v1/sosScenario', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ "sos": true })
+    })
+    .then(resp => resp.json())
+    .then(function(data) {
+        if (data.success){
+            document.getElementById("topology").src = SOS_TOPOLOGY;
+        }else{
+            document.getElementById("start_stop").innerHTML = "Error changing topology. Restart network";
+            document.getElementById("danger-outlined").checked = false;
+        }
+    });
+}
+
+function resetNetwork(){
+
+    fetch('api/v1/resetNetwork', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+            },
+        body: JSON.stringify({ "reset": true })
+    })
+    .then(resp => resp.json())
+    .then(function(data) {
+        if (data.success){
+            document.getElementById("start_stop").innerHTML = "Network resetted";
+            document.getElementById("success-outlined").checked = false;
+            document.getElementById("danger-outlined").checked = false;
+        }else{
+            document.getElementById("start_stop").innerHTML = "Error resetting network";
+        }
     });
 }
 

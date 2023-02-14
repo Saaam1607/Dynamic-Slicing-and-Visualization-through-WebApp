@@ -16,13 +16,22 @@
     <div id="main">
         <h1>Dynamic slicing</h1>
         <br>
-        <input type="checkbox" class="btn-check" name="options-outlined" id="danger-outlined" onclick="changeScenario()" autocomplete="off">
-        <label class="btn btn-outline-danger" for="danger-outlined">SOS scenario</label>
+        <input type="radio" class="btn-check" name="options-outlined" id="success-outlined" onclick="stdScenario()" autocomplete="off" disabled>
+        <label class="btn btn-outline-primary btn-lg" for="success-outlined">Standard scenario</label>
+
+        <input type="radio" class="btn-check" name="options-outlined" id="danger-outlined" onclick="sosScenario()" autocomplete="off" disabled>
+        <label class="btn btn-outline-warning btn-lg" for="danger-outlined">SOS scenario</label>
+
+        <button type="button" class="btn btn-secondary btn-lg" id="resetBtn" onclick="resetNetwork()" disabled>Reset network</button>
+        <!-- <input type="checkbox" class="btn-check" name="options-outlined" id="danger-outlined" onclick="changeScenario()" autocomplete="off">
+        <label class="btn btn-outline-danger" for="danger-outlined">SOS scenario</label> -->
         <br>
         <img src="images/scenario1.png" alt="An example image" id="topology">
         <br>
-        <button type="button" class="btn btn-info btn-lg" id="info" onclick="networkInfo()">Network info</button>
-        <!-- <button type="button" class="btn btn-danger btn-lg" id="stopNetwork" onclick="stopNetwork()" disabled>Stop</button> -->
+        <button type="button" class="btn btn-success btn-lg" id="startNetwork" onclick="startNetwork()">Start network</button>
+        <button type="button" class="btn btn-danger btn-lg" id="stopNetwork" onclick="stopNetwork()" disabled>Stop network</button>
+        <br>
+        <p id="start_stop"></p>
         <br>
         <iframe id="networkInfo" src="http://192.168.56.2:8080/" width="100%" height="500px" style="border: none;"></iframe>
     </div>
