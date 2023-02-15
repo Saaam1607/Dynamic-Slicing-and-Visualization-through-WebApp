@@ -8,7 +8,6 @@ from mininet.link import TCLink
 from mininet.cli import CLI
 
 import os
-import subprocess
 
 class OnDemandSlicingTopo(Topo):
     def __init__(self):
@@ -49,8 +48,6 @@ if __name__ == '__main__':
     net = Mininet(topo=topo, link=TCLink, controller=RemoteController('c0', ip='127.0.0.1'), switch=OVSKernelSwitch, build=False ,autoSetMacs=True, autoStaticArp=True)
     net.build()
     net.start()
-
-    #subprocess.call("./script.sh")
 
     CLI(net)
     net.stop()

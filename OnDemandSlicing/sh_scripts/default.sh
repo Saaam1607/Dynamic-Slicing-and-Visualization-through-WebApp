@@ -2,7 +2,7 @@
 
 # S1
 echo ' ---------------------------------------------- '
-echo '*** Network Slicing: Creating 2 slices of 5 Mbps each ...'
+echo '*** Network Slicing: Creating 2 slices of 10 Mbps each ...'
 echo 'Switch 1:'
 sudo ovs-vsctl -- \
 set port s1-eth1 qos=@newqos -- \
