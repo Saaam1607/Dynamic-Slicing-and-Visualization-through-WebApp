@@ -9,3 +9,6 @@
 3) Run `vagrant reload`
 4) Run `vagrant ssh`
 5) Now a new ip address is assigned to the vagrant machine, we will use it to access the web application from outside the vagrant machine
+
+## Default Scenario
+![Default Scenario](/images/defaultScenario.png)
