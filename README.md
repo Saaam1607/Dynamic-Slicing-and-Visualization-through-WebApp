@@ -100,9 +100,9 @@ In our lower critical scenario there are 6 hosts and 4 switches, three slices
 - H3 and H6 slice with a 7 Mbps link
 Host H7 and H8 are not part of any slice and aren't connected to any switch.
 
-![image](images/Pingall/lowerScenarioPing.png)
-![image](images/Iperf/LowerCritical/1.png)
-![image](images/Iperf/LowerCritical/2.png)
+![image](images/Pingall/lowerScenarioPing.png)\
+![image](images/Iperf/LowerCritical/1.png)\
+![image](images/Iperf/LowerCritical/2.png)\
 ![image](images/Iperf/LowerCritical/3.png)
 
 ### Upper Critical Scenario
@@ -114,9 +114,9 @@ In our upper critical scenario there are 6 hosts and 4 switches, three slices
 - Bottom slice with H2 and H5 using a 10 Mbps link
 Host H3 and H6 are not part of any slice and aren't connected to any switch.
 
-![image](images/Pingall/upperCriticalPing.png)
-![image](images/Iperf/UpperCritical/1.png)
-![image](images/Iperf/UpperCritical/2.png)
+![image](images/Pingall/upperCriticalPing.png)\
+![image](images/Iperf/UpperCritical/1.png)\
+![image](images/Iperf/UpperCritical/2.png)\
 ![image](images/Iperf/UpperCritical/3.png)
 
 ### Full Critical Scenario
@@ -129,10 +129,10 @@ In our full critical scenario there are 8 hosts and 4 switches, four slices
 - H3 and H6 slice with a 7 Mbps link
 All the hosts are connected.
 
-![image](images/Pingall/fullCriticalPing.png)
-![image](images/Iperf/FullCritical/1.png)
-![image](images/Iperf/FullCritical/2.png)
-![image](images/Iperf/FullCritical/3.png)
+![image](images/Pingall/fullCriticalPing.png)\
+![image](images/Iperf/FullCritical/1.png)\
+![image](images/Iperf/FullCritical/2.png)\
+![image](images/Iperf/FullCritical/3.png)\
 ![image](images/Iperf/FullCritical/4.png)
 
 ## Web App fuctionalities
