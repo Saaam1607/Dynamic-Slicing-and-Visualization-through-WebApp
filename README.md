@@ -87,8 +87,8 @@ In our default scenario there are 4 hosts and 4 switches, two slices
 
 Host H3, H6, H7 and H8 are not part of any slice and aren't connected to any switch.
 
-![image](images/Pingall/defaultScenarioPing.png)
-![image](images/Iperf/Default/1.png)
+![image](images/Pingall/defaultScenarioPing.png)\
+![image](images/Iperf/Default/1.png)\
 ![image](images/Iperf/Default/2.png)
 
 ### Bottom Critical Scenario
