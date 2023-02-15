@@ -79,7 +79,7 @@ node server.js
 
 ### Default Scenario
 
-![image](images/defaultScenario.png)
+![image](images/Scenarios/defaultScenario.png)
 
 In our default scenario there are 4 hosts and 4 switches, two slices
 - Upper slice with H1 and H4 using a 10 Mbps link
@@ -87,10 +87,12 @@ In our default scenario there are 4 hosts and 4 switches, two slices
 
 Host H3, H6, H7 and H8 are not part of any slice and aren't connected to any switch.
 
-![image](images/defaultScenarioPing.png)
+![image](images/Pingall/defaultScenarioPing.png)
+![image](images/Iperf/Default/1.png)
+![image](images/Iperf/Default/2.png)
 
 ### Bottom Critical Scenario
-![image](images/bottomCritical.png)
+![image](images/Scenarios/bottomCritical.png)
 
 In our lower critical scenario there are 6 hosts and 4 switches, three slices
 - Upper slice with H1 and H4 using a 10 Mbps link
@@ -98,10 +100,13 @@ In our lower critical scenario there are 6 hosts and 4 switches, three slices
 - H3 and H6 slice with a 7 Mbps link
 Host H7 and H8 are not part of any slice and aren't connected to any switch.
 
-![image](images/lowerScenarioPing.png)
+![image](images/Pingall/lowerScenarioPing.png)
+![image](images/Iperf/LowerCritical/1.png)
+![image](images/Iperf/LowerCritical/2.png)
+![image](images/Iperf/LowerCritical/3.png)
 
 ### Upper Critical Scenario
-![image](images/upperCritical.png)
+![image](images/Scenarios/upperCritical.png)
 
 In our upper critical scenario there are 6 hosts and 4 switches, three slices
 - H1 and H4 slice wirh a 3 Mbps link
@@ -109,10 +114,13 @@ In our upper critical scenario there are 6 hosts and 4 switches, three slices
 - Bottom slice with H2 and H5 using a 10 Mbps link
 Host H3 and H6 are not part of any slice and aren't connected to any switch.
 
-![image](images/upperCriticalPing.png)
+![image](images/Pingall/upperCriticalPing.png)
+![image](images/Iperf/UpperCritical/1.png)
+![image](images/Iperf/UpperCritical/2.png)
+![image](images/Iperf/UpperCritical/3.png)
 
 ### Full Critical Scenario
-![image](images/fullCritical.png)
+![image](images/Scenarios/fullCritical.png)
 
 In our full critical scenario there are 8 hosts and 4 switches, four slices
 - H1 and H4 slice wirh a 3 Mbps link
@@ -121,7 +129,11 @@ In our full critical scenario there are 8 hosts and 4 switches, four slices
 - H3 and H6 slice with a 7 Mbps link
 All the hosts are connected.
 
-![image](images/fullCriticalPing.png)
+![image](images/Pingall/fullCriticalPing.png)
+![image](images/Iperf/FullCritical/1.png)
+![image](images/Iperf/FullCritical/2.png)
+![image](images/Iperf/FullCritical/3.png)
+![image](images/Iperf/FullCritical/4.png)
 
 ## Web App fuctionalities
 Our Web App allows the user to switch between the different scenarios and see the topology of the network in real time. 
