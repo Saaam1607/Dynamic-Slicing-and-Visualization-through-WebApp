@@ -22,6 +22,15 @@ Project for the course "Softwarized and Virtualized Mobile Networks" at the Univ
   - [Web App fuctionalities](#web-app-fuctionalities)
   - [Testing the network](#testing-the-network)
 
+## Requirements
+- Vagrant
+- VirtualBox
+- NodeJS
+- NPM
+- Python3
+- Mininet
+- Ryu
+- ComNetsEmu
 
 ## Project description
 **GOAL:** to implement a network slicing approach to enable dynamic activation/de-activation of network slices via GUI commands.
@@ -34,7 +43,7 @@ In order to have the web server running inside the vagrant machine we have to cr
 1) Exit the vagrant machine
 2) Add this line to the vagrant file 
    ```BASH
-   config.vm.network "private_network", type: "dhcp"
+   config.vm.network "private_network", ip: "192.168.56.2"
    ```
 3) Run `vagrant reload`
 4) Run `vagrant ssh`
@@ -53,7 +62,21 @@ cd ~/ProgettoNet2
 vagrant up
 vagrant ssh
 ```
-Entered the vagrant machine we have to run the following commands (for the mininet simulation):
+Entered the vagrant machine we have to run the following commands (to install all packages needed for the web app):
+```BASH
+cd ~/ProgettoNet2/webApp
+npm install
+```
+Than to run the web app:
+```BASH
+node server.js
+```
+Once the web app is running we can open a browser and go to the following address to access the web app:
+```BASH
+http://192.168.56.2:8081
+```
+
+<!-- Entered the vagrant machine we have to run the following commands (for the mininet simulation):
 ```BASH
 cd OnDemandSlicing
 sudo python3 topology.py
@@ -74,8 +97,7 @@ sudo apt install nodejs
 sudo apt install npm
 npm install
 node server.js
-```
-
+``` -->
 
 ### Default Scenario
 
