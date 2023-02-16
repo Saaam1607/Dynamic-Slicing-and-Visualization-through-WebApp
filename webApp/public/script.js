@@ -9,8 +9,6 @@ function login(){
     if (username == USERNAME && password == PASSWORD){
         window.location.href = "home.html";
     }else{
-        // alert("Errore: Username o Password errati")
-
         // Reset input fields
         document.getElementById("Username").value = "";
         document.getElementById("Password").value = "";
@@ -35,7 +33,8 @@ function startNetwork(){
     .then(resp => resp.json())
     .then(function(data) {
         if (data.success){
-            location.reload();
+            //Refresh iframe
+            document.getElementById("networkInfo").src = document.getElementById("networkInfo").src;
 
             //Enable buttons
             document.getElementById("start_stop").innerHTML = "Network started";
@@ -117,6 +116,19 @@ function stdScenario(){
     });
 }
 
+function critical(){
+    let sos1 = document.getElementById("sos1");
+    let sos2 = document.getElementById("sos2");
+
+    if (sos1.checked && sos2.checked){
+        bothCritical();
+    }else if (sos1.checked){
+        upperCritical();
+    }else if (sos2.checked){
+        lowerCritical();
+    }
+}
+
 function upperCritical(){
     
     console.log("SOS upper critical scenario");
@@ -134,11 +146,11 @@ function upperCritical(){
             document.getElementById("start_stop").innerHTML = "Upper critical scenario";
 
             document.getElementById("stdScenario").disabled = false;
-            document.getElementById("sos1").disabled = true;
+            // document.getElementById("sos1").disabled = true;
             document.getElementById("sos2").disabled = false;
 
             document.getElementById("stdScenario").checked = false;
-            document.getElementById("sos2").checked = false;
+            // document.getElementById("sos2").checked = false;
         }else{
             document.getElementById("start_stop").innerHTML = "Error changing topology. Restart network";
             document.getElementById("sos1").checked = false;
@@ -164,10 +176,33 @@ function lowerCritical(){
 
             document.getElementById("stdScenario").disabled = false;
             document.getElementById("sos1").disabled = false;
-            document.getElementById("sos2").disabled = true;
 
             document.getElementById("stdScenario").checked = false;
-            document.getElementById("sos1").checked = false;
+        }else{
+            document.getElementById("start_stop").innerHTML = "Error changing topology. Restart network";
+            document.getElementById("sos2").checked = false;
+        }
+    });
+}
+
+function bothCritical(){
+    console.log("SOS both critical scenario");
+
+    fetch('api/v1/bothCritical', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ "sos": true })
+    })
+    .then(resp => resp.json())
+    .then(function(data) {
+        if (data.success){
+            document.getElementById("start_stop").innerHTML = "Both critical scenario";
+
+            document.getElementById("stdScenario").disabled = false;
+            document.getElementById("sos1").disabled = false;
+            document.getElementById("sos2").disabled = false;
         }else{
             document.getElementById("start_stop").innerHTML = "Error changing topology. Restart network";
             document.getElementById("danger-outlined").checked = false;
@@ -176,6 +211,8 @@ function lowerCritical(){
 }
 
 function resetNetwork(){
+
+    console.log("Reset network");
 
     fetch('api/v1/resetNetwork', {
         method: 'POST',
@@ -189,7 +226,7 @@ function resetNetwork(){
         if (data.success){
             document.getElementById("start_stop").innerHTML = "Network resetted";
 
-            document.getElementById("stScenario").checked = false;
+            document.getElementById("stdScenario").checked = false;
             document.getElementById("sos1").checked = false;
             document.getElementById("sos2").checked = false;
         }else{

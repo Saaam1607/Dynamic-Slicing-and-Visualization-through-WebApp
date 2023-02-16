@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const bodyParser = require("body-parser");
-const request = require("request");
 const {spawn} = require('child_process');
 const {exec} = require('child_process');
 
@@ -13,12 +12,26 @@ const stdScenario = '/home/vagrant/comnetsemu/progettoNet2/OnDemandSlicing/sh_sc
 const upperCritical = '/home/vagrant/comnetsemu/progettoNet2/OnDemandSlicing/sh_scripts/upperCritical.sh';
 const lowerCritical = '/home/vagrant/comnetsemu/progettoNet2/OnDemandSlicing/sh_scripts/lowerCritical.sh';
 const bothCritical = '/home/vagrant/comnetsemu/progettoNet2/OnDemandSlicing/sh_scripts/bothCritical.sh';
-const resetScript = '/home/vagrant/comnetsemu/progettoNet2/OnDemandSlicing/sh_scripts/deepReset.sh';
+const resetScript = '/home/vagrant/comnetsemu/progettoNet2/OnDemandSlicing/sh_scripts/reset.sh';
 
 //PID of child process
 PID = 0;
 
-var firstTime = true;
+function resetNetwork(){
+    return new Promise((resolve, reject) => {
+        var ok = false;
+        exec('bash ' + resetScript, (error, stdout, stderr) => {
+            if (error) {
+                console.error(`Error: ${error.message}`);
+                reject(error);
+            } else {
+                console.log(`Process output: ${stdout}`);
+                ok = true;
+                resolve(ok);
+            }
+        });
+    });
+}
 
 app.use(express.static('public'));
 
@@ -76,23 +89,8 @@ app.post('/api/v1/stdScenario', function(req, res) {
 
     console.log("Standard scenario");
 
-    if (!firstTime){
-        //Reset network
-        console.log("***")
-        console.log("DBDBDBDBD")
-        console.log("***")
-
-        exec('bash ' + resetScript, (error, stdout, stderr) => {
-            if (error) {
-                console.error(`Error: ${error.message}`);
-                res.json({success: false});
-            }else{
-                console.log(`Process output: ${stdout}`);
-            }
-        });
-    }else{
-        firstTime = false;
-    }
+    //Reset network
+    resetNetwork();
 
     //Start standard scenario
     exec('bash ' + stdScenario, (error, stdout, stderr) => {
@@ -110,19 +108,8 @@ app.post('/api/v1/upperCritical', function(req, res) {
 
     console.log("SOS upper critical scenario");
 
-    if (!firstTime){
-        //Reset network
-        exec('bash ' + resetScript, (error, stdout, stderr) => {
-            if (error) {
-                console.error(`Error: ${error.message}`);
-                res.json({success: false});
-            }else{
-                console.log(`Process output: ${stdout}`);
-            }
-        });
-    }else{
-        firstTime = false;
-    }
+    //Reset network
+    resetNetwork();
 
     //Start sos scenario
     exec('bash ' + upperCritical, (error, stdout, stderr) => {
@@ -140,22 +127,30 @@ app.post('/api/v1/lowerCritical', function(req, res) {
 
     console.log("SOS lower critical scenario");
 
-    if (!firstTime){
-        //Reset network
-        exec('bash ' + resetScript, (error, stdout, stderr) => {
-            if (error) {
-                console.error(`Error: ${error.message}`);
-                res.json({success: false});
-            }else{
-                console.log(`Process output: ${stdout}`);
-            }
-        });
-    }else{
-        firstTime = false;
-    }
+    //Reset network
+    resetNetwork();
 
     //Start sos scenario
     exec('bash ' + lowerCritical, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`Error: ${error.message}`);
+            return;
+        }else{
+            console.log(`Process output: ${stdout}`);
+            res.json({success: true});
+        }
+    });
+});
+
+app.use('/api/v1/bothCritical', function(req, res) {
+
+    console.log("SOS both critical scenario");
+
+    //Reset network
+    resetNetwork();
+
+    //Start sos scenario
+    exec('bash ' + bothCritical, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error: ${error.message}`);
             return;
@@ -171,30 +166,13 @@ app.use('/api/v1/resetNetwork', function(req, res) {
     console.log("Reset network");
 
     //Reset network
-    exec('bash ' + resetScript, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error: ${error.message}`);
-            res.json({success: false});
-        }else{
-            console.log(`Process output: ${stdout}`);
-            res.json({success: true});
-        }
-    });
-});
-
-app.get('/api/v1/networkInfo', function(req, res) {
-    var options = {
-        method: 'GET',
-        url: 'http://192.168.56.2:8080/stats/switches',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-    };
-    request(options, function (error, response, body) {
-        if (error) throw new Error(error);
-        var switches = JSON.parse(body);
-        console.log(switches);
-    });
+    resetNetwork()
+        .then((ok) => {
+            res.json({success: ok})
+        })
+        .catch((err) => {
+            res.json({success: false})
+        });
 });
 
 app.listen(PORT, function() {
