@@ -159,7 +159,11 @@ All the hosts are connected.
 ![image](images/Iperf/FullCritical/4.png)
 
 ## Web App fuctionalities
-Our Web App allows the user to switch between the different scenarios and see the topology of the network in real time. 
+Our Web App allows the user to switch between the different scenarios and see the topology of the network in real time. It requires at first a simple login with username and password: **admin**
+
+Did the login we are redirected to the control page, in this page we are able start the network, switch between the different scenarios and stop the network.
+
+![wa2](images/webapp/wa2.jpeg)
 
 ## Testing the network
 
