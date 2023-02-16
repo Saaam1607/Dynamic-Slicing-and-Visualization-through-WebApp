@@ -5,7 +5,8 @@ sudo mn -c
 #sleep 1 second
 sleep 1
 # run ryu controller
-ryu-manager ~/comnetsemu/progettoNet2/OnDemandSlicing/controller.py &
+cd ~/comnetsemu/progettoNet2/OnDemandSlicing
+ryu-manager --observe-links gui_start.py ~/comnetsemu/progettoNet2/OnDemandSlicing/controller.py &
 #sleep 1 second
 sleep 1
 #run mininet

@@ -1,20 +1,6 @@
 const USERNAME = 'admin';
 const PASSWORD = 'admin';
 
-// Location of topology images
-const STD_TOPOLOGY = "images/scenario1.png";
-const SOS_TOPOLOGY = "images/scenario2.png";
-
-// var iframe = document.getElementById('networkInfo');
-// var innerDoc = iframe.contentDocument || iframe.contentWindow.document;
-
-// var button = innerDoc.getElementById('SaveSwitchs');
-// button.parentNode.removeChild(button);
-// button = innerDoc.getElementById('SaveHosts');
-// button.parentNode.removeChild(button);
-// button = innerDoc.getElementById('SaveLinks');
-// button.parentNode.removeChild(button);
-
 function login(){
 
     let username = document.getElementById("Username").value;
@@ -49,13 +35,16 @@ function startNetwork(){
     .then(resp => resp.json())
     .then(function(data) {
         if (data.success){
+            location.reload();
+
             //Enable buttons
             document.getElementById("start_stop").innerHTML = "Network started";
 
             document.getElementById("stopNetwork").disabled = false;
 
-            document.getElementById("success-outlined").disabled = false;
-            document.getElementById("danger-outlined").disabled = false;
+            document.getElementById("stdScenario").disabled = false;
+            document.getElementById("sos1").disabled = false;
+            document.getElementById("sos2").disabled = false;
             document.getElementById("resetBtn").disabled = false;
         }else{
             document.getElementById("start_stop").innerHTML = "Error starting network";
@@ -84,11 +73,13 @@ function stopNetwork(){
 
             document.getElementById("startNetwork").disabled = false;
 
-            document.getElementById("success-outlined").disabled = true;
-            document.getElementById("success-outlined").checked = false;
+            document.getElementById("stdScenario").checked = false;
+            document.getElementById("sos1").checked = false;
+            document.getElementById("sos2").checked = false;
 
-            document.getElementById("danger-outlined").disabled = true;
-            document.getElementById("danger-outlined").checked = false;
+            document.getElementById("stdScenario").disabled = true;
+            document.getElementById("sos1").disabled = true;
+            document.getElementById("sos2").disabled = true;
 
             document.getElementById("resetBtn").disabled = true;
 
@@ -111,19 +102,26 @@ function stdScenario(){
     .then(resp => resp.json())
     .then(function(data) {
         if (data.success){
-            document.getElementById("topology").src = STD_TOPOLOGY;
+            document.getElementById("start_stop").innerHTML = "Standard scenario";
+
+            document.getElementById("stdScenario").disabled = true;
+            document.getElementById("sos1").disabled = false;
+            document.getElementById("sos2").disabled = false;
+
+            document.getElementById("sos1").checked = false;
+            document.getElementById("sos2").checked = false;
         }else{
             document.getElementById("start_stop").innerHTML = "Error changing topology. Restart network";
-            document.getElementById("success-outlined").checked = false;
+            document.getElementById("stdScenario").checked = false;
         }
     });
 }
 
-function sosScenario(){
+function upperCritical(){
     
-    console.log("SOS Scenario");
+    console.log("SOS upper critical scenario");
 
-    fetch('api/v1/sosScenario', {
+    fetch('api/v1/upperCritical', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -133,7 +131,43 @@ function sosScenario(){
     .then(resp => resp.json())
     .then(function(data) {
         if (data.success){
-            document.getElementById("topology").src = SOS_TOPOLOGY;
+            document.getElementById("start_stop").innerHTML = "Upper critical scenario";
+
+            document.getElementById("stdScenario").disabled = false;
+            document.getElementById("sos1").disabled = true;
+            document.getElementById("sos2").disabled = false;
+
+            document.getElementById("stdScenario").checked = false;
+            document.getElementById("sos2").checked = false;
+        }else{
+            document.getElementById("start_stop").innerHTML = "Error changing topology. Restart network";
+            document.getElementById("sos1").checked = false;
+        }
+    });
+}
+
+function lowerCritical(){
+    
+    console.log("SOS lower critical scenario");
+
+    fetch('api/v1/lowerCritical', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ "sos": true })
+    })
+    .then(resp => resp.json())
+    .then(function(data) {
+        if (data.success){
+            document.getElementById("start_stop").innerHTML = "Lower critical scenario";
+
+            document.getElementById("stdScenario").disabled = false;
+            document.getElementById("sos1").disabled = false;
+            document.getElementById("sos2").disabled = true;
+
+            document.getElementById("stdScenario").checked = false;
+            document.getElementById("sos1").checked = false;
         }else{
             document.getElementById("start_stop").innerHTML = "Error changing topology. Restart network";
             document.getElementById("danger-outlined").checked = false;
@@ -154,8 +188,10 @@ function resetNetwork(){
     .then(function(data) {
         if (data.success){
             document.getElementById("start_stop").innerHTML = "Network resetted";
-            document.getElementById("success-outlined").checked = false;
-            document.getElementById("danger-outlined").checked = false;
+
+            document.getElementById("stScenario").checked = false;
+            document.getElementById("sos1").checked = false;
+            document.getElementById("sos2").checked = false;
         }else{
             document.getElementById("start_stop").innerHTML = "Error resetting network";
         }

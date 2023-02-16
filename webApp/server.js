@@ -9,12 +9,16 @@ const {exec} = require('child_process');
 const PORT = 8081;
 
 const launcherPath = '/home/vagrant/comnetsemu/progettoNet2/OnDemandSlicing/launcher.sh';
-const stdScenario = '/home/vagrant/comnetsemu/progettoNet2/OnDemandSlicing/script.sh';
-const resetScript = '/home/vagrant/comnetsemu/progettoNet2/OnDemandSlicing/reset.sh';
-const sosScenario = '/home/vagrant/comnetsemu/progettoNet2/OnDemandSlicing/scriptCritical.sh';
+const stdScenario = '/home/vagrant/comnetsemu/progettoNet2/OnDemandSlicing/sh_scripts/default.sh';
+const upperCritical = '/home/vagrant/comnetsemu/progettoNet2/OnDemandSlicing/sh_scripts/upperCritical.sh';
+const lowerCritical = '/home/vagrant/comnetsemu/progettoNet2/OnDemandSlicing/sh_scripts/lowerCritical.sh';
+const bothCritical = '/home/vagrant/comnetsemu/progettoNet2/OnDemandSlicing/sh_scripts/bothCritical.sh';
+const resetScript = '/home/vagrant/comnetsemu/progettoNet2/OnDemandSlicing/sh_scripts/deepReset.sh';
 
 //PID of child process
 PID = 0;
+
+var firstTime = true;
 
 app.use(express.static('public'));
 
@@ -72,15 +76,23 @@ app.post('/api/v1/stdScenario', function(req, res) {
 
     console.log("Standard scenario");
 
-    //Reset network
-    exec('bash ' + resetScript, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error: ${error.message}`);
-            res.json({success: false});
-        }else{
-            console.log(`Process output: ${stdout}`);
-        }
-    });
+    if (!firstTime){
+        //Reset network
+        console.log("***")
+        console.log("DBDBDBDBD")
+        console.log("***")
+
+        exec('bash ' + resetScript, (error, stdout, stderr) => {
+            if (error) {
+                console.error(`Error: ${error.message}`);
+                res.json({success: false});
+            }else{
+                console.log(`Process output: ${stdout}`);
+            }
+        });
+    }else{
+        firstTime = false;
+    }
 
     //Start standard scenario
     exec('bash ' + stdScenario, (error, stdout, stderr) => {
@@ -94,22 +106,56 @@ app.post('/api/v1/stdScenario', function(req, res) {
     });
 });
 
-app.post('/api/v1/sosScenario', function(req, res) {
+app.post('/api/v1/upperCritical', function(req, res) {
 
-    console.log("SOS scenario");
+    console.log("SOS upper critical scenario");
 
-    //Reset network
-    exec('bash ' + resetScript, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`Error: ${error.message}`);
-            res.json({success: false});
-        }else{
-            console.log(`Process output: ${stdout}`);
-        }
-    });
+    if (!firstTime){
+        //Reset network
+        exec('bash ' + resetScript, (error, stdout, stderr) => {
+            if (error) {
+                console.error(`Error: ${error.message}`);
+                res.json({success: false});
+            }else{
+                console.log(`Process output: ${stdout}`);
+            }
+        });
+    }else{
+        firstTime = false;
+    }
 
     //Start sos scenario
-    exec('bash ' + sosScenario, (error, stdout, stderr) => {
+    exec('bash ' + upperCritical, (error, stdout, stderr) => {
+        if (error) {
+            console.error(`Error: ${error.message}`);
+            return;
+        }else{
+            console.log(`Process output: ${stdout}`);
+            res.json({success: true});
+        }
+    });
+});
+
+app.post('/api/v1/lowerCritical', function(req, res) {
+
+    console.log("SOS lower critical scenario");
+
+    if (!firstTime){
+        //Reset network
+        exec('bash ' + resetScript, (error, stdout, stderr) => {
+            if (error) {
+                console.error(`Error: ${error.message}`);
+                res.json({success: false});
+            }else{
+                console.log(`Process output: ${stdout}`);
+            }
+        });
+    }else{
+        firstTime = false;
+    }
+
+    //Start sos scenario
+    exec('bash ' + lowerCritical, (error, stdout, stderr) => {
         if (error) {
             console.error(`Error: ${error.message}`);
             return;

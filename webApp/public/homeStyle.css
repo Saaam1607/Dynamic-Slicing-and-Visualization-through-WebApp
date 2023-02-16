@@ -16,8 +16,28 @@ div {
     margin-right: auto;
     margin-top: 20px;
     border-radius: 7px;
-    height: 1100px;
+    height: 1200px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+#panel1 {
+    position: absolute;
+    top: 387px;
+    left: 300px;
+    width: 70%;
+    height: 7%;
+    background-color: rgba(255, 255, 255, 1); /* trasparenza del 70% */
+    z-index: 1; /* in modo da posizionare il pannello sopra il testo */
+}
+
+#panel2 {
+    position: absolute;
+    top: 1167px;
+    left: 300px;
+    width: 70%;
+    height: 10%;
+    background-color: rgba(255, 255, 255, 1); /* trasparenza del 70% */
+    z-index: 1; /* in modo da posizionare il pannello sopra il testo */
 }
 
 h1 {
@@ -44,6 +64,7 @@ label {
 #networkInfo {
     border: none;
     margin-bottom: -100px;
+    margin-top: -20px;
 }
 
 p {
