@@ -40,16 +40,16 @@ class OnDemandSlicingTopo(Topo):
         self.addLink('h8', 's4', **link_config)
 
 if __name__ == '__main__':
-    # build the topology    
-    topo = OnDemandSlicingTopo()
+    topo = OnDemandSlicingTopo() # build the topology  
     # create a Mininet object with the given topology and a RemoteController
-    net = Mininet(topo=topo, link=TCLink, controller=RemoteController('c0', ip='127.0.0.1'), switch=OVSKernelSwitch, build=False ,autoSetMacs=True, autoStaticArp=True)
-    # build the netwwork
-    net.build()
-    # start the network
-    net.start()
-    # give the control to the user
-    CLI(net)
+    net = Mininet(topo=topo, link=TCLink,
+                  controller=RemoteController('c0', ip='127.0.0.1'),
+                  switch=OVSKernelSwitch, 
+                  build=False,
+                  autoSetMacs=True,
+                  autoStaticArp=True)
+    net.build() # build the netwwork
+    net.start() # start the network
+    CLI(net) # give the control to the user
     net.stop()
-    # destroy the network
-    os.system('sudo mn -c')
+    os.system('sudo mn -c') # destroy the network
