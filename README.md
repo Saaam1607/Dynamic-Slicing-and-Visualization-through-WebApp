@@ -10,6 +10,7 @@ Project for the course "Softwarized and Virtualized Mobile Networks" at the Univ
 ## Table of Contents
 - [On Demand SDN Slices in ComNetsEmu](#on-demand-sdn-slices-in-comnetsemu)
   - [Table of Contents](#table-of-contents)
+  - [Requirements](#requirements)
   - [Project description](#project-description)
   - [Access web application outside vagrant](#access-web-application-outside-vagrant)
   - [Project structure](#project-structure)
