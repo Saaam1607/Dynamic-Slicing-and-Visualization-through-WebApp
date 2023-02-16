@@ -8,4 +8,4 @@ This directory contains:
 
 * *launcher.sh* is a sh script to automatically instantiate the controller and build the network
 
-* the *sh_scripts* contains the sh scrpts to build slices over the network
+* the *sh_scripts* folder contains the sh scrpts to build slices over the network
