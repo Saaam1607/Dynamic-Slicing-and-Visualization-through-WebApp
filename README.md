@@ -49,12 +49,12 @@ In order to have the web server running inside the vagrant machine a private net
    ```
 3) Run `vagrant reload`
 4) Run `vagrant ssh`
-5) Now a new ip address is assigned to the vagrant machine. The ip-.address will be used to access the web application from outside the vagrant machine
+5) Now a new ip address is assigned to the vagrant machine. The ip.address will be used to access the web application from outside the vagrant machine
 
 ## Project structure
 The project is structured in two main folders:
-- Folder `OnDemandSlicing` contains the code of the ryu controller, the topology and the topology visualizer
-- Folder `Web App` contains our web application that display the topology and allows the user to switch to the different scenarios.
+- The folder`OnDemandSlicing` contains the code of the ryu controller, the topology and the topology visualizer
+- The folder `Web App` contains the web application that displays the topology and allows the user to switch between different scenarios.
 ```
 ├── [OnDemandSlicing]
 |    ├── [html]
@@ -101,7 +101,7 @@ Once accessed the vagrant machine, run the following commands (to install all pa
 cd ~/ProgettoNet2/webApp
 npm install
 ```
-Than to run the web app:
+Then run the web app:
 ```BASH
 node server.js
 ```
@@ -110,19 +110,19 @@ Once the web app is running, open a browser and go to the following address to a
 http://192.168.56.2:8081
 ```
 
-<!-- Entered the vagrant machine we have to run the following commands (for the mininet simulation):
+<!-- Once accessed the vagrant machine, run the following commands (for the mininet simulation):
 ```BASH
 cd OnDemandSlicing
 sudo python3 topology.py
 ```
-In another window we have to run the following commands (for the controller):
+In another window run the following commands (for the controller):
 ```BASH
 cd ~/ProgettoNet2
 vagrant ssh
 cd OnDemandSlicing
 ryu-manager --observe-links gui_start.py controller.py
 ```
-In another window we have to run the following commands (for the web app):
+In another window we run the following commands (for the web app):
 ```BASH
 cd ~/ProgettoNet2
 vagrant ssh
@@ -141,7 +141,7 @@ In the default scenario there are 4 hosts and 4 switches. Two slices are active:
 - Upper slice with H1 and H4 using a 10 Mbps link
 - Bottom slice with H2 and H% using a 10 Mbps link
 
-Host H3, H6, H7 and H8 are not part of any slice and aren't connected to any switch.
+Host H3, H6, H7 and H8 are not part of any slice and are not connected to any switch.
 
 ![image](images/Pingall/defaultScenarioPing.png)\
 ![image](images/Iperf/Default/1.png)\
@@ -154,7 +154,7 @@ In the lower critical scenario there are 6 hosts and 4 switches. Three slices ar
 - Upper slice with H1 and H4 using a 10 Mbps link
 - H2 and H5 slice with a 3 Mbps link
 - H3 and H6 slice with a 7 Mbps link
-Host H7 and H8 are not part of any slice and aren't connected to any switch.
+Host H7 and H8 are not part of any slice and are not connected to any switch.
 
 ![image](images/Pingall/lowerScenarioPing.png)\
 ![image](images/Iperf/LowerCritical/1.png)\
@@ -168,7 +168,7 @@ In the upper critical scenario there are 6 hosts and 4 switches. Three slices ar
 - H1 and H4 slice wirh a 3 Mbps link
 - H7 and H8 slice with a 7 Mbps link
 - Bottom slice with H2 and H5 using a 10 Mbps link
-Host H3 and H6 are not part of any slice and aren't connected to any switch.
+Host H3 and H6 are not part of any slice and are not connected to any switch.
 
 ![image](images/Pingall/upperCriticalPing.png)\
 ![image](images/Iperf/UpperCritical/1.png)\
