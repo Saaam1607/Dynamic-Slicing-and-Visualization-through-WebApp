@@ -39,6 +39,40 @@ Project for the course "Softwarized and Virtualized Mobile Networks" at the Univ
 
 We will use the ComNetsEmu framework to implement the network and Ryu as a SDN controller.
 
+## Project Layout
+```
+├── [OnDemandSlicing]
+|    ├── [html]
+|    ├── [sh_scripts]
+|    |    ├── bothCritical.sh
+|    |    ├── default.sh
+|    |    ├── lowerCritical.sh
+|    |    ├── reset.sh
+|    |    └── upperCritical.sh
+|    ├── controller.py
+|    ├── gui_start.py
+|    ├── launcher.sh
+|    └── topology.py
+├── [images]
+|    ├── [Iperf]
+|    ├── [Pingall]
+|    ├── [Scenarios]
+|    └── [webapp]
+└── [webApp]
+     ├── [public]
+     │    ├── [images]
+     │    ├── home.html
+     │    ├── homeStyle.css
+     │    ├── index.html
+     │    ├── loginStyle.css
+     │    ├── script.js
+     │    ├── snake
+     │    └── spaceGame
+     ├── package.json      
+     └── server.js
+
+```
+
 ## Access web application outside vagrant
 In order to have the web server running inside the vagrant machine we have to create a private network between the host machine and the vagrant machine. This is done by following the steps below:
 
