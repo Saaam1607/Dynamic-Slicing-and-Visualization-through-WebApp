@@ -1,5 +1,5 @@
 # On Demand SDN Slices in ComNetsEmu
-Project for the course "Softwarized and Virtualized Mobile Networks" at the University of Trento
+Project developed for the course "Softwarized and Virtualized Mobile Networks" at the University of Trento
 
 **Samuel Casagrande Cecchin** - [s.casagrande.cecchin@studenti.unitn.it](s.casagrande.cecchin@studenti.unitn.it)
 
