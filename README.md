@@ -1,11 +1,11 @@
 # On Demand SDN Slices in ComNetsEmu
 Project for the course "Softwarized and Virtualized Mobile Networks" at the University of Trento
 
-**Samuel Casagrande Cecchin**
+**Samuel Casagrande Cecchin** [s.casagrande.cecchin@studenti.unitn.it](s.casagrande.cecchin@studenti.unitn.it)
 
-**Davide De Martini**
+**Davide De Martini** - [davide.demartini@studenti.unitn.it](davide.demartini@studenti.unitn.it)
 
-**Stefano Sacchet**
+**Stefano Sacchet** - [stefano.sacchet@studenti.unitn.it](stefano.sacchet@studenti.unitn.it)
 
 ## Table of Contents
 - [On Demand SDN Slices in ComNetsEmu](#on-demand-sdn-slices-in-comnetsemu)
@@ -22,6 +22,7 @@ Project for the course "Softwarized and Virtualized Mobile Networks" at the Univ
     - [Full Critical Scenario](#full-critical-scenario)
   - [Web App fuctionalities](#web-app-fuctionalities)
   - [Testing the network](#testing-the-network)
+  - [Known Issues](#Known Issues)
 
 ## Requirements
 - Vagrant
@@ -180,3 +181,6 @@ For testing the bandwidth we can use the iperf command:
 mininet> h1 iperf h2
 ```
 Of course h1 and h2 can be replaced with any other host in the network.
+
+## Known Issues
+When trowing a command that do not autoterminate (like h1 ping h2) the web app functionalities stop working. In order to have the webapp working you have to restart it.
