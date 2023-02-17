@@ -22,7 +22,7 @@ Project for the course "Softwarized and Virtualized Mobile Networks" at the Univ
     - [Full Critical Scenario](#full-critical-scenario)
   - [Web App fuctionalities](#web-app-fuctionalities)
   - [Testing the network](#testing-the-network)
-  - [Known Issues](#Known Issues)
+  - [Known Issues](#known-issues)
 
 ## Requirements
 - Vagrant
