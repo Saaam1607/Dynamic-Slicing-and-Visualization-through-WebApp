@@ -49,7 +49,7 @@ In order to have the web server running inside the vagrant machine a private net
    ```
 3) Run `vagrant reload`
 4) Run `vagrant ssh`
-5) Now a new ip address is assigned to the vagrant machine. The ip.address will be used to access the web application from outside the vagrant machine
+5) Now a new ip address is assigned to the vagrant machine. The ip address will be used to access the web application from outside the vagrant machine
 
 ## Project structure
 The project is structured in two main folders:
