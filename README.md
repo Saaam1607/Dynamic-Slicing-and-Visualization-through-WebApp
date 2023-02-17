@@ -9,7 +9,7 @@ Authors are:
 **Stefano Sacchet** - [stefano.sacchet@studenti.unitn.it](stefano.sacchet@studenti.unitn.it)
 
 ## Table of Contents
-- [On Demand SDN Slices in ComNetsEmu](#on-demand-sdn-slices-in-comnetsemu)
+- [Dynamic Slicing and Visualization through WebApp](#on-demand-sdn-slices-in-comnetsemu)
   - [Table of Contents](#table-of-contents)
   - [Requirements](#requirements)
   - [Project description](#project-description)
