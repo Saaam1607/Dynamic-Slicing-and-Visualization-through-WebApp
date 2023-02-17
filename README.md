@@ -215,4 +215,4 @@ mininet> h1 iperf h2
 Of course h1 and h2 can be replaced with any other host in the network.
 
 ## Known Issues
-When trowing a command that do not autoterminate (like h1 ping h2) the web app functionalities stop working. In order to have the webapp working again, a restart is required.
+* When trowing a command that do not autoterminate (like h1 ping h2) the web app functionalities stop working. In order to have the webapp working again, a restart is required.
